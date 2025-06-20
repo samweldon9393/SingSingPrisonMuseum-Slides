@@ -11,16 +11,16 @@ misconduct_groups <- data.frame(
 )
 
 visit_colors <- c(
-  "No Visits" = "#d73027",
-  "Visited Early" = "#fc8d59",
-  "Visited Late" = "#91bfdb",
-  "Consistently Visited" = "#4575b4"
+  "No Visits" = "#eb7171",
+  "Consistently Visited" = "#78dcc1",
+  "Visited Early" = "#71eb80",
+  "Visited Late" = "#ebe471"
 )
 
 misconduct_colors <- c(
-  "No Misconduct" = "#d73027",
-  "Some Misconduct" = "#fc8d59",
-  "Heavy Misconduct" = "#4575b4"
+  "No Misconduct" = "#78dcc1",
+  "Some Misconduct" = "#ebe471",
+  "Heavy Misconduct" = "#eb7171"
 )
 
 
