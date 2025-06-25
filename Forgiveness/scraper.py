@@ -3,21 +3,9 @@ from bs4 import BeautifulSoup
 import json
 
 base = "https://ir.lawnet.fordham.edu/trans/"
-url = base + "1"
-response = requests.get(url)
 
-html = response.text
-soup = BeautifulSoup(html, "html.parser")
+tot_map = {}
 
-alpha = soup.body.find(id="alpha")
-
-for child in alpha.children:
-    for s in child.strings:
-        print(s)
-        ''' printing 3 blank lines in between, can we delimit with that? '''
-
-
-'''
 for i in range(1, 201):
     url = base + str(i)
 
@@ -25,4 +13,19 @@ for i in range(1, 201):
 
     if response.status_code != 200:
         print("Failed to get url")
-'''
+
+    html = response.text
+    soup = BeautifulSoup(html, "html.parser")
+
+    alpha = soup.body.find(id="alpha")
+
+    ind_map = {}
+
+    for h2 in alpha.find_all("h2"):
+        ind_map[h2.string] = h2.next_sibling.next_sibling.string
+
+    tot_map[i] = ind_map
+
+
+with open("data.json", "w") as f:
+    json.dump(tot_map, f, indent=4)
