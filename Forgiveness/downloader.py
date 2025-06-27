@@ -3,7 +3,8 @@ import os
 import re
 from bs4 import BeautifulSoup
 
-url = "https://ir.lawnet.fordham.edu/trans/"
+#url = "https://ir.lawnet.fordham.edu/trans/"
+url = "https://ir.lawnet.fordham.edu/trans/index.2.html"
 
 resp = requests.get(url)
 soup = BeautifulSoup(resp.text, "html.parser")
