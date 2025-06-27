@@ -1,7 +1,14 @@
 import pandas as pd 
 import numpy as np
+import os
 
-df = pd.read_json("data.json")
-df = df.T
+df = pd.read_json("data.json", orient="records", lines=True)
 
-print(df.columns)
+dirr = "./txt/"
+for i, row in df.iterrows():
+    path = dirr + row["Filename"] 
+    if os.path.exists(path):
+        print("File exists!")
+    else:
+        print(f"File does not exist: {row}")
+        

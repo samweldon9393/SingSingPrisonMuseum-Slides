@@ -3,10 +3,10 @@ import numpy as np
 import json
 
 def make_filename(code: str, date: str):
-    return f"{code}-{date}.pdf"
+    return f"{code}-{date}.txt"
 
 
-df = pd.read_json("data.json")
+df = pd.read_json("data1.json")
 df = df.T
 
 #print(df['Parole Applicant Code'])
