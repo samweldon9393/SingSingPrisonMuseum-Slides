@@ -37,12 +37,14 @@ class PieChart(VGroup):
 
 class WholeScene(Scene):
     def construct(self):
-        self.title_sequence("How many visits do inmates get?")
+        self.title_sequence("How many visits do inmates get?", 18)
         self.make_pie_chart()
+        Scene.clear(self)
+        self.title_sequence("How many infractions do inmates get?", 13)
 
-    def title_sequence(self, text):
+    def title_sequence(self, text, size):
         # Initial large title
-        title = Text(text, font_size=18)
+        title = Text(text, font_size=size)
 
         # Step 1: Animate it onto the center
         self.play(Write(title))
@@ -64,6 +66,7 @@ class WholeScene(Scene):
         pie_chart = PieChart(data)
         pie_chart.move_to(ORIGIN)
         pie_chart.labels[0].shift(DOWN*.04)
+        pie_chart.labels[-1].move_to(ORIGIN).shift(DOWN*.3)
 
         for wedge, label in zip(pie_chart.slices, pie_chart.labels):
             self.play(
@@ -81,15 +84,16 @@ class WholeScene(Scene):
                         FadeOut(pie_chart.labels[i])
                 )
                 self.wait(1)
-        self.play(pie_chart.labels[-1].animate.move_to(ORIGIN).shift(DOWN*.2))
-        msg = self.centered_text("~75% of inmates had no visitors")
-        self.play(ReplacementTransform(pie_chart.labels[-1], msg))
+        msg = Text("~75% of inmates studied had no visitors", font_size=14)
+        bg = BackgroundRectangle(msg, fill_opacity=0.5, fill_color=BLACK, buff=0.1)
+        group = VGroup(bg, msg)
+
+        self.play(ReplacementTransform(pie_chart.labels[-1], group))
 
         self.wait(2)
+        self.play(
+                FadeOut(msg),
+                FadeOut(pie_chart.slices[-1])
+        )
 
-
-    def centered_text(self, text):
-        # Initial large title
-        title = Text(text, font_size=18)
-        return title
 
