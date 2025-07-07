@@ -2,7 +2,7 @@ from manim import *
 import math
 
 class PieChart(VGroup):
-    def __init__(self, data, colors=None, radius=1, label_scale=0.2, **kwargs):
+    def __init__(self, data, colors=None, radius=.8, label_scale=0.15, **kwargs):
         super().__init__(**kwargs)
         total = sum(data.values())
         angle_start = 0
@@ -28,7 +28,7 @@ class PieChart(VGroup):
 
             # Add label
             mid_angle = angle_start + angle_span / 2
-            label_pos = radius * 1.3 * np.array([math.cos(mid_angle), math.sin(mid_angle), 0])
+            label_pos = radius * 1.4 * np.array([math.cos(mid_angle), math.sin(mid_angle), 0])
             label_text = Text(label).scale(label_scale).move_to(label_pos)
             self.labels.append(label_text)
             self.add(label_text)
@@ -38,7 +38,7 @@ class PieChart(VGroup):
 class PieChartScene(Scene):
     def construct(self):
         data = {
-            "Frequent Visits": 6,
+            "Many Visits": 6,
             "Some Visits": 20,
             "No Visits": 74
         }
@@ -51,7 +51,17 @@ class PieChartScene(Scene):
                 Create(wedge),
                 FadeIn(label, shift=UP)
             )
-            self.wait(1)  # optional pause between each
+            self.wait(2)  # optional pause between each
+
+        self.wait(2)
+
+        for i, d in enumerate(data):
+            if i < len(data) - 1:
+                self.play(
+                        FadeOut(pie_chart.slices[i]),
+                        FadeOut(pie_chart.labels[i])
+                )
+                self.wait(1)
 
         self.wait(2)
 
