@@ -1,3 +1,3 @@
 #!/bin/sh
 
-manim -pql main.py PieChartScene
+manim -pql main.py WholeScene
