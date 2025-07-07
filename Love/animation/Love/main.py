@@ -2,7 +2,7 @@ from manim import *
 import math
 
 class PieChart(VGroup):
-    def __init__(self, data, colors=None, radius=1, label_scale=0.5, **kwargs):
+    def __init__(self, data, colors=None, radius=1, label_scale=0.2, **kwargs):
         super().__init__(**kwargs)
         total = sum(data.values())
         angle_start = 0
@@ -22,6 +22,7 @@ class PieChart(VGroup):
                 color=colors[i % len(colors)],
                 stroke_width=1,
             )
+            wedge.set_fill(color=wedge.get_fill_color(), opacity=0.5)
             self.slices.append(wedge)
             self.add(wedge)
 
@@ -37,22 +38,20 @@ class PieChart(VGroup):
 class PieChartScene(Scene):
     def construct(self):
         data = {
-            "Cats": 40,
-            "Dogs": 35,
-            "Rabbits": 25
+            "Frequent Visits": 6,
+            "Some Visits": 20,
+            "No Visits": 74
         }
 
         pie_chart = PieChart(data)
         pie_chart.move_to(ORIGIN)
 
-        self.play(*[
-            GrowFromCenter(wedge)
-            for wedge in pie_chart.slices
-        ])
-        self.play(*[
-            FadeIn(label)
-            for label in pie_chart.labels
-        ])
+        for wedge, label in zip(pie_chart.slices, pie_chart.labels):
+            self.play(
+                Create(wedge),
+                FadeIn(label, shift=UP)
+            )
+            self.wait(1)  # optional pause between each
 
         self.wait(2)
 
