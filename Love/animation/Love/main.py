@@ -1,6 +1,9 @@
 from manim import *
 import math
 
+#with register_font("./monument-grotesk-regular.ttf"):
+#    a = Text("Hello", font="Monument")
+
 class PieChart(VGroup):
     def __init__(self, data, colors=None, radius=.9, label_scale=0.2, **kwargs):
         super().__init__(**kwargs)
@@ -29,22 +32,23 @@ class PieChart(VGroup):
             # Add label
             mid_angle = angle_start + angle_span / 2
             label_pos = radius * .7 * np.array([math.cos(mid_angle), math.sin(mid_angle), 0])
-            label_text = Text(label).scale(label_scale).move_to(label_pos)
+            label_text = Text(label, font="Monument Grotesk").scale(label_scale).move_to(label_pos)
             self.labels.append(label_text)
             self.add(label_text)
 
             angle_start += angle_span
 
 class WholeScene(Scene):
+
     def construct(self):
-        self.title_sequence("How many visits do inmates get?", 18)
+        self.title_sequence("How  many  visits do inmates get?", 18)
         self.make_pie_chart()
         Scene.clear(self)
         self.title_sequence("How many infractions do inmates get?", 13)
 
     def title_sequence(self, text, size):
         # Initial large title
-        title = Text(text, font_size=size)
+        title = Text(text, font_size=size, font="Monument Grotesk")
 
         # Step 1: Animate it onto the center
         self.play(Write(title))
@@ -84,7 +88,7 @@ class WholeScene(Scene):
                         FadeOut(pie_chart.labels[i])
                 )
                 self.wait(1)
-        msg = Text("~75% of inmates studied had no visitors", font_size=14)
+        msg = Text("~75% of inmates studied had no visitors", font_size=14, font="Monument Grotesk")
         bg = BackgroundRectangle(msg, fill_opacity=0.5, fill_color=BLACK, buff=0.1)
         group = VGroup(bg, msg)
 
