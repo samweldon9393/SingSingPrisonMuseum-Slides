@@ -67,7 +67,7 @@ class WholeScene(Scene):
         self.make_pie_chart(misconduct_data, misconduct_text)
         Scene.clear(self)
 
-        self.title_sequence("Is there a connection between visits and misconduct?", 13)
+        self.title_sequence("Is there a connection between visits and misconduct?")
         expl = self.explanation_text()
         self.play(expl)
         self.wait(10)
@@ -75,15 +75,51 @@ class WholeScene(Scene):
 
         '''
 
-        self.line_graph()
+        self.wait(1)
+        y_values = [66.8, 70.7, 78.0, 77.3]
+        plane, graph, x_labels = self.line_graph(y_values, [50, 100, 10], '#0f19f5')
+        self.add(plane)
+        self.add(x_labels)
+        self.wait(1)
 
-    def title_sequence(self, text, size):
+        self.title_sequence("Here's how visit frequency impacts misconduct")
+        graph_text = Text("This line represents inmates with no misconduct", font_size=13, font="Monument Grotesk")
+        bg = BackgroundRectangle(graph_text, fill_opacity=0.5, fill_color=BLACK, buff=0.1)
+        group = VGroup(bg, graph_text)
+        group.set_z_index(1000)
+        self.play(Write(group))
+        self.wait(1)
+        group.set_opacity(0.5)
+        self.play(Create(graph), run_time=6)
+        self.play(FadeOut(group))
+        self.play(FadeOut(graph))
+
+
+        graph_text = Text("This line represents inmates with heavy misconduct", font_size=13, font="Monument Grotesk")
+        bg = BackgroundRectangle(graph_text, fill_opacity=0.5, fill_color=BLACK, buff=0.1)
+        group = VGroup(bg, graph_text)
+        group.set_z_index(1000)
+        self.play(Write(group))
+        self.wait(1)
+        group.set_opacity(0.5)
+        y_values = [5.6, 8.1, 0.7, 0]
+        new_plane, graph, x_labels = self.line_graph(y_values, [0, 50, 10], '#f50f0f')
+        self.play(ReplacementTransform(plane, new_plane))
+        self.wait(1)
+        self.play(Create(graph), run_time=6)
+        self.play(FadeOut(group))
+        self.play(FadeOut(graph))
+
+
+    def title_sequence(self, text, size=13):
         # Initial large title
-        title = Text(text, font_size=size, font="Monument Grotesk")
+        t = Text(text, font_size=size, font="Monument Grotesk")
+        bg = BackgroundRectangle(t, fill_opacity=.5, fill_color=BLACK, buff=0.1)
+        title = VGroup(bg, t)
 
         # Step 1: Animate it onto the center
         self.play(FadeIn(title))
-        self.wait(1.5)  # Pause to linger
+        self.wait(2.5)  # Pause to linger
 
         # Step 2: Shrink and move to top
         title_target = title.copy().scale(0.5).shift(UP)
@@ -132,27 +168,38 @@ class WholeScene(Scene):
         group = VGroup(text1.shift(UP*.45), text2.shift(UP*.3), text3.shift(UP*.15), text4, text5.shift(DOWN*.15), text6.shift(DOWN*.3))
         return group
 
-    def line_graph(self):
+    def line_graph(self, y_values, y_range, color):
         plane = NumberPlane(
-            x_range = (0, 6, 1),
-            y_range = (60, 100, 10),
+            x_range = (0, 5, 1),
+            y_range = y_range,
             x_length = 4,
             y_length = 2,
-            axis_config={"include_numbers": True},
+            x_axis_config={"include_numbers": False},
+            axis_config={"include_numbers": True, "color":WHITE},
+            background_line_style={
+                "stroke_color": GRAY,         # 👈 grid line color
+                "stroke_width": 1,
+                "stroke_opacity": 0.5,
+            },
         )
         plane.center()
 
-        #x_values = ["No Visits", "Visited Early", "Visited Late", "Consistently Visited"]
-        x_values = [0, 1, 2, 3, 4]
-        y_values = [70, 80, 90, 100]
-        graph = plane.plot_line_graph(x_values,y_values,z_values=None,line_color=ManimColor('#FFFF00'),add_vertex_dots=True,vertex_dot_radius=0.08,vertex_dot_style=None)
+        x_values = [1, 2, 3, 4]
+        graph = plane.plot_line_graph(x_values,y_values,z_values=None,line_color=ManimColor(color),add_vertex_dots=True,vertex_dot_radius=0.06,vertex_dot_style=None)
 
-        labels = ["No Visits", "Visited Early", "Visited Late", "Consistently Visited"]
+        labels = ["No Visits", "Visited Early", "Visited Late", "Many Visits"]
         x_labels = VGroup()
 
         for x, label in zip(x_values, labels):
-            text = Text(label, font_size=24).scale(0.4)
-            text.next_to(plane.c2p(x, 30), DOWN)  # c2p = "coordinates to pixel"
-            x_labels.add(text)
+            text = Text(label, font_size=22).scale(0.4)
+            bg = BackgroundRectangle(text, fill_opacity=1, fill_color=BLACK, buff=0.1)
+            group = VGroup(bg, text)
+            group.move_to(plane.c2p((x)*1.08, 45))  # Adjust y as needed for label placement
+            x_labels.add(group)
 
-        self.play(Create(plane))
+        for label in plane.y_axis.numbers:
+            label.shift(LEFT*0.5)
+
+
+        VGroup(plane, graph, x_labels).scale(0.5)
+        return plane, graph, x_labels
