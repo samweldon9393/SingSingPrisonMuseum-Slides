@@ -77,7 +77,7 @@ class WholeScene(Scene):
 
         self.wait(1)
         y_values = [66.8, 70.7, 78.0, 77.3]
-        plane, graph, x_labels = self.line_graph(y_values, [50, 100, 10], '#0f19f5')
+        plane, graph, x_labels = self.line_graph(y_values, [60, 110, 10], '#0f19f5')
         self.add(plane)
         self.add(x_labels)
         self.wait(1)
@@ -103,7 +103,7 @@ class WholeScene(Scene):
         self.wait(1)
         group.set_opacity(0.5)
         y_values = [5.6, 8.1, 0.7, 0]
-        new_plane, graph, x_labels = self.line_graph(y_values, [0, 50, 10], '#f50f0f')
+        new_plane, graph, x_labels = self.line_graph(y_values, [-10, 20, 5], '#f50f0f')
         self.play(ReplacementTransform(plane, new_plane))
         self.wait(1)
         self.play(Create(graph), run_time=6)
