@@ -41,7 +41,6 @@ class PieChart(VGroup):
 class WholeScene(Scene):
 
     def construct(self):
-        '''
         intro = Text("The importance of connection in prison", font_size=18, font="Monument Grotesk")
         self.play(Write(intro))
         self.wait(5)
@@ -69,11 +68,9 @@ class WholeScene(Scene):
 
         self.title_sequence("Is there a connection between visits and misconduct?")
         expl = self.explanation_text()
-        self.play(expl)
+        self.play(Create(expl))
         self.wait(10)
         self.play(FadeOut(expl))
-
-        '''
 
         self.wait(1)
         y_values = [66.8, 70.7, 78.0, 77.3]
