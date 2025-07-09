@@ -95,7 +95,7 @@ class PrisonDataVisualization(Scene):
         
         full_title = VGroup(bg, title_group)
         full_title.move_to(ORIGIN)
-        full_title.scale(0.5)
+        full_title.scale(0.3)
         
         self.play(FadeIn(full_title, shift=UP), run_time=2)
         self.wait(3)
@@ -113,16 +113,16 @@ class PrisonDataVisualization(Scene):
         
         colors = [RED_D, YELLOW_D, GREEN_D]
         pie_chart = PieChart(visit_data, colors=colors, radius=1.5)
-        pie_chart.shift(LEFT * 1.5)
-        pie_chart.scale(0.5)
+        pie_chart.shift(LEFT * .5)
+        pie_chart.scale(0.3)
         
         # Key finding text
         finding = VGroup(
             Text("Key Finding:", font="Arial", weight=BOLD, font_size=24, color=RED_D),
             Text("75% of inmates", font="Arial", weight=BOLD, font_size=20),
             Text("receive no visits", font="Arial", font_size=18, color=GRAY_B)
-        ).arrange(DOWN, buff=0.2).shift(RIGHT * 2)
-        finding.scale(0.5)
+        ).arrange(DOWN, buff=0.2).shift(RIGHT * .5)
+        finding.scale(0.3)
         
         # Animate pie chart creation
         self.animate_pie_chart(pie_chart)
@@ -147,16 +147,16 @@ class PrisonDataVisualization(Scene):
         
         colors = [GREEN_D, YELLOW_D, RED_D]
         pie_chart = PieChart(misconduct_data, colors=colors, radius=1.5)
-        pie_chart.shift(LEFT * 1.5)
-        pie_chart.scale(0.5)
+        pie_chart.shift(LEFT * .5)
+        pie_chart.scale(0.3)
         
         # Key finding text
         finding = VGroup(
             Text("Key Finding:", font="Arial", weight=BOLD, font_size=24, color=GREEN_D),
             Text("69% of inmates", font="Arial", weight=BOLD, font_size=20),
             Text("had no infractions", font="Arial", font_size=18, color=GRAY_B)
-        ).arrange(DOWN, buff=0.2).shift(RIGHT * 2)
-        finding.scale(0.5)
+        ).arrange(DOWN, buff=0.2).shift(RIGHT * .5)
+        finding.scale(0.3)
         
         # Animate pie chart creation
         self.animate_pie_chart(pie_chart)
@@ -180,7 +180,7 @@ class PrisonDataVisualization(Scene):
             Text("One-year analysis comparing visit frequency with misconduct citations", 
                  font="Arial", font_size=14, color=GRAY_C)
         ).arrange(DOWN, buff=0.1).move_to(ORIGIN)
-        citation.scale(0.5)
+        citation.scale(0.3)
         
         self.play(FadeIn(citation), run_time=2)
         self.wait(3)
@@ -206,7 +206,7 @@ class PrisonDataVisualization(Scene):
             x_axis_config={"include_numbers": False},
             tips=False
         ).move_to(ORIGIN)
-        axes.scale(0.5)
+        axes.scale(0.3)
         
         # Data points
         x_values = [1, 2, 3, 4]
@@ -221,7 +221,7 @@ class PrisonDataVisualization(Scene):
             vertex_dot_radius=0.06,
             stroke_width=3
         )
-        no_misconduct_graph.scale(0.5)
+        no_misconduct_graph.scale(0.3)
         
         heavy_misconduct_graph = axes.plot_line_graph(
             x_values, heavy_misconduct_y,
@@ -230,7 +230,7 @@ class PrisonDataVisualization(Scene):
             vertex_dot_radius=0.06,
             stroke_width=3
         )
-        heavy_misconduct_graph.scale(0.5)
+        heavy_misconduct_graph.scale(0.3)
         
         # X-axis labels
         x_labels = ["No Visits", "Few Visits", "Some Visits", "Many Visits"]
@@ -240,13 +240,13 @@ class PrisonDataVisualization(Scene):
             text = Text(label, font="Arial", font_size=14)
             text.next_to(axes.c2p(i + 1, 0), DOWN, buff=0.3)
             x_label_group.add(text)
-        x_label_group.scale(0.5)
+        x_label_group.scale(0.3)
         
         # Y-axis title
         y_title = Text("Percentage of Inmates", font="Arial", font_size=16, color=WHITE)
         y_title.rotate(90 * DEGREES)
         y_title.next_to(axes.y_axis, LEFT, buff=0.3)
-        y_title.scale(0.5)
+        y_title.scale(0.3)
         
         # Legend
         legend = VGroup(
@@ -271,7 +271,7 @@ class PrisonDataVisualization(Scene):
             corner_radius=0.1
         )
         legend_group = VGroup(bg, legend)
-        legend_group.scale(0.5)
+        legend_group.scale(0.3)
         
         # Animate the graph
         self.play(Create(axes), run_time=2)
@@ -312,7 +312,7 @@ class PrisonDataVisualization(Scene):
         conclusion_group = VGroup(conclusion_title, conclusion_points)
         conclusion_group.arrange(DOWN, buff=0.8)
         conclusion_group.move_to(ORIGIN)
-        conclusion_group.scale(0.5)
+        conclusion_group.scale(0.3)
         
         self.play(FadeIn(conclusion_title, shift=UP), run_time=2)
         self.wait(1)
@@ -342,7 +342,7 @@ class PrisonDataVisualization(Scene):
         
         title_group = VGroup(title, underline)
         title_group.to_edge(UP, buff=0.3)
-        title_group.scale(0.5)
+        title_group.scale(0.3)
         
         self.play(Write(title), Create(underline), run_time=1.5)
         self.wait(0.5)
