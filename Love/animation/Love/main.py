@@ -41,6 +41,7 @@ class PieChart(VGroup):
 class WholeScene(Scene):
 
     def construct(self):
+        '''
         intro = Text("The importance of connection in prison", font_size=18, font="Monument Grotesk")
         self.play(Write(intro))
         self.wait(5)
@@ -66,6 +67,7 @@ class WholeScene(Scene):
         self.make_pie_chart(misconduct_data, misconduct_text)
         Scene.clear(self)
 
+        '''
         self.title_sequence("Is there a connection between visits and misconduct?")
         expl = self.explanation_text()
         self.play(Create(expl))
@@ -79,7 +81,8 @@ class WholeScene(Scene):
         self.add(x_labels)
         self.wait(1)
 
-        self.title_sequence("Here's how visit frequency impacts misconduct")
+        graph_text = Text("The X-axis ", font_size=13, font="Monument Grotesk")
+        bg = BackgroundRectangle(graph_text, fill_opacity=0.5, fill_color=BLACK, buff=0.1)
         graph_text = Text("This line represents inmates with no misconduct", font_size=13, font="Monument Grotesk")
         bg = BackgroundRectangle(graph_text, fill_opacity=0.5, fill_color=BLACK, buff=0.1)
         group = VGroup(bg, graph_text)
@@ -101,6 +104,7 @@ class WholeScene(Scene):
         group.set_opacity(0.5)
         y_values = [5.6, 8.1, 0.7, 0]
         new_plane, graph, x_labels = self.line_graph(y_values, [-10, 20, 5], '#f50f0f')
+        VGroup(new_plane, graph, x_labels).shift(DOWN*.15)
         self.play(ReplacementTransform(plane, new_plane))
         self.wait(1)
         self.play(Create(graph), run_time=6)
@@ -166,25 +170,26 @@ class WholeScene(Scene):
         return group
 
     def line_graph(self, y_values, y_range, color):
-        plane = NumberPlane(
-            x_range = (0, 5, 1),
-            y_range = y_range,
-            x_length = 4,
-            y_length = 2,
-            x_axis_config={"include_numbers": False},
-            axis_config={"include_numbers": True, "color":WHITE},
-            background_line_style={
-                "stroke_color": GRAY,         # 👈 grid line color
-                "stroke_width": 1,
-                "stroke_opacity": 0.5,
+        plane = Axes(
+            x_range=[0, 5, 1],
+            y_range=y_range,
+            x_length=4,
+            y_length=2,
+            axis_config={
+                "color": WHITE,
+                "stroke_width": 2,
+                "include_numbers": True,
+                "font_size": 18
             },
-        )
+            x_axis_config={"include_numbers": False},
+            tips=False
+        ).move_to(ORIGIN)
         plane.center()
 
         x_values = [1, 2, 3, 4]
         graph = plane.plot_line_graph(x_values,y_values,z_values=None,line_color=ManimColor(color),add_vertex_dots=True,vertex_dot_radius=0.06,vertex_dot_style=None)
 
-        labels = ["No Visits", "Visited Early", "Visited Late", "Many Visits"]
+        labels = ["No Visits", "Some Visits", "Some Visits", "Many Visits"]
         x_labels = VGroup()
 
         for x, label in zip(x_values, labels):
