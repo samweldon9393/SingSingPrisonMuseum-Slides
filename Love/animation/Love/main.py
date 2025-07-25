@@ -100,6 +100,7 @@ class WholeScene(Scene):
         group = VGroup(bg, graph_text)
         group.set_z_index(1000)
         self.play(Write(group))
+        group.shift(DOWN*.1)
         self.wait(1)
         group.set_opacity(0.5)
         y_values = [5.6, 8.1, 0.7, 0]
@@ -177,7 +178,7 @@ class WholeScene(Scene):
             y_length=2,
             axis_config={
                 "color": WHITE,
-                "stroke_width": 2,
+                "stroke_width": 1,
                 "include_numbers": True,
                 "font_size": 18
             },

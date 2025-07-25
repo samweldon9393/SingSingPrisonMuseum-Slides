@@ -1,3 +1,3 @@
 #!/bin/sh
 
-manim -pql main.py WholeScene
+manim -pql alt2.py PrisonDataVisualization
