@@ -25,7 +25,7 @@ class PieChart(VGroup):
                 angle=angle_span,
                 start_angle=angle_start,
                 color=colors[i % len(colors)],
-                stroke_width=2,
+                stroke_width=0.5,
                 stroke_color=WHITE,
             )
             wedge.set_fill(color=colors[i % len(colors)], opacity=0.9)
@@ -38,8 +38,8 @@ class PieChart(VGroup):
 
             percentage = f"{value}%"
             label_text = VGroup(
-                Text(label, font="Arial", weight=BOLD, color=WHITE).scale(label_scale),
-                Text(percentage, font="Arial", color=WHITE).scale(label_scale * 0.8)
+                Text(label, font="Arial", font_size=48, weight=BOLD, color=WHITE).scale(label_scale),
+                Text(percentage, font="Arial", font_size=58, color=WHITE).scale(label_scale * 0.5)
             ).arrange(DOWN, buff=0.05)
 
             label_text.move_to(label_pos)
@@ -99,7 +99,7 @@ class PrisonDataVisualization(Scene):
         )
 
         full_title = VGroup(bg, title_group)
-        full_title.move_to(ORIGIN).scale(0.5)
+        full_title.move_to(ORIGIN).scale(0.2)
 
         # Smooth entrance animation
         self.play(
@@ -113,7 +113,7 @@ class PrisonDataVisualization(Scene):
 
     def show_visit_data(self):
         """Display visit frequency data with pie chart"""
-        section_title = self.create_section_title("Prison Visit Frequency").scale(0.5)
+        section_title = self.create_section_title("Prison Visit Frequency")
 
         visit_data = {
             "None": 75,
@@ -123,14 +123,14 @@ class PrisonDataVisualization(Scene):
 
         colors = [RED_C, YELLOW_C, GREEN_C]
         pie_chart = PieChart(visit_data, colors=colors, radius=2.5)
-        pie_chart.shift(LEFT * 2).scale(0.5)
+        pie_chart.shift(LEFT*0.75).scale(0.2)
 
         # Enhanced key finding with better positioning
         finding = VGroup(
             Text("Key Finding:", font="Arial", weight=BOLD, font_size=32, color=RED_C),
             Text("75% of inmates", font="Arial", weight=BOLD, font_size=28, color=WHITE),
             Text("receive no visits", font="Arial", font_size=24, color=GRAY_A)
-        ).arrange(DOWN, buff=0.3).shift(RIGHT * 2.5).scale(0.5)
+        ).arrange(DOWN, buff=0.3).shift(RIGHT*0.75).scale(0.2)
 
         # Animate pie chart creation
         self.animate_pie_chart(pie_chart)
@@ -138,7 +138,7 @@ class PrisonDataVisualization(Scene):
 
         # Show key finding with staggered animation
         for item in finding:
-            self.play(FadeIn(item, shift=RIGHT * 0.3), run_time=1)
+            self.play(FadeIn(item), run_time=1)
             self.wait(0.5)
 
         self.wait(3)
@@ -146,7 +146,7 @@ class PrisonDataVisualization(Scene):
 
     def show_misconduct_data(self):
         """Display misconduct data with pie chart"""
-        section_title = self.create_section_title("Inmate Misconduct Incidents").scale(0.5)
+        section_title = self.create_section_title("Inmate Misconduct Incidents")
 
         misconduct_data = {
             "None": 69,
@@ -156,14 +156,14 @@ class PrisonDataVisualization(Scene):
 
         colors = [GREEN_C, YELLOW_C, RED_C]
         pie_chart = PieChart(misconduct_data, colors=colors, radius=2.5)
-        pie_chart.shift(LEFT * 2).scale(0.5)
+        pie_chart.shift(LEFT*0.75).scale(0.2)
 
         # Enhanced key finding
         finding = VGroup(
             Text("Key Finding:", font="Arial", weight=BOLD, font_size=32, color=GREEN_C),
             Text("69% of inmates", font="Arial", weight=BOLD, font_size=28, color=WHITE),
             Text("had no infractions", font="Arial", font_size=24, color=GRAY_A)
-        ).arrange(DOWN, buff=0.3).shift(RIGHT * 2.5).scale(0.5)
+        ).arrange(DOWN, buff=0.3).shift(RIGHT*0.75).scale(0.2)
 
         # Animate pie chart creation
         self.animate_pie_chart(pie_chart)
@@ -171,7 +171,7 @@ class PrisonDataVisualization(Scene):
 
         # Show key finding with staggered animation
         for item in finding:
-            self.play(FadeIn(item, shift=RIGHT * 0.3), run_time=1)
+            self.play(FadeIn(item), run_time=1)
             self.wait(0.5)
 
         self.wait(3)
@@ -179,7 +179,8 @@ class PrisonDataVisualization(Scene):
 
     def show_connection_analysis(self):
         """Show the correlation between visits and misconduct"""
-        section_title = self.create_section_title("The Connection: Visits vs. Misconduct").scale(0.5)
+        section_title = self.create_section_title("The Connection: Visits vs. Misconduct")
+        self.play(Write(section_title))
 
         # Study citation with better formatting
         citation = VGroup(
@@ -200,7 +201,7 @@ class PrisonDataVisualization(Scene):
             stroke_width=1
         )
 
-        citation_group = VGroup(citation_bg, citation).scale(0.5)
+        citation_group = VGroup(citation_bg, citation).scale(0.2)
 
         self.play(DrawBorderThenFill(citation_bg), run_time=1)
         self.play(FadeIn(citation), run_time=2)
@@ -217,12 +218,9 @@ class PrisonDataVisualization(Scene):
 
         # First graph - No misconduct
         y_values_no_misconduct = [66.8, 70.7, 78.0, 77.3]
-        plane, graph1, x_labels = self.create_line_graph(
-            y_values_no_misconduct, [60, 85, 5], GREEN_C, "inmates with no misconduct"
+        plane, graph1, x_labels = self.line_graph(
+            y_values_no_misconduct, [60, 85, 5], GREEN_C
         )
-        plane.scale(0.5)
-        x_labels.scale(0.5)
-        graph1.scale(0.5)
         
         self.add(plane)
         self.add(x_labels)
@@ -232,16 +230,23 @@ class PrisonDataVisualization(Scene):
         self.play(Create(graph1), run_time=4)
         self.wait(2)
 
+
         # Second graph - Heavy misconduct
         y_values_heavy_misconduct = [5.6, 8.1, 0.7, 0]
-        graph2 = self.create_second_line_graph(plane, y_values_heavy_misconduct, RED_C)
-        y_values_heavy_misconduct.scale(0.5)
-        graph2.scale(0.5)
-        
+        new_plane, graph2, x_labels = self.line_graph(
+            y_values_heavy_misconduct, [-10, 20, 5], '#f50f0f'
+        )
+        VGroup(new_plane, graph2, x_labels).shift(DOWN*.15)
+        self.wait(1)
+        self.play(FadeOut(graph1))
+        self.play(ReplacementTransform(plane, new_plane))
+
+
+
         # Add explanation for second line
         explanation = Text("inmates with heavy misconduct", font_size=20, font="Arial", color=RED_C)
         explanation_bg = BackgroundRectangle(explanation, fill_opacity=0.8, fill_color=BLACK, buff=0.2)
-        explanation_group = VGroup(explanation_bg, explanation).move_to(UP * 2).scale(0.5)
+        explanation_group = VGroup(explanation_bg, explanation).move_to(UP * 2).scale(0.2)
         
         self.play(FadeIn(explanation_group), run_time=1)
         self.wait(1)
@@ -251,7 +256,44 @@ class PrisonDataVisualization(Scene):
         self.play(FadeOut(explanation_group), run_time=1)
         
         self.wait(3)
-        self.play(FadeOut(VGroup(plane, graph1, graph2, x_labels)), run_time=2)
+        self.play(FadeOut(VGroup(plane, new_plane, graph2, x_labels)), run_time=2)
+
+    def line_graph(self, y_values, y_range, color):
+        plane = Axes(
+            x_range=[0, 5, 1],
+            y_range=y_range,
+            x_length=4,
+            y_length=2,
+            axis_config={
+                "color": WHITE,
+                "stroke_width": 1,
+                "include_numbers": True,
+                "font_size": 18
+            },
+            x_axis_config={"include_numbers": False},
+            tips=False
+        ).move_to(ORIGIN)
+        plane.center()
+
+        x_values = [1, 2, 3, 4]
+        graph = plane.plot_line_graph(x_values,y_values,z_values=None,line_color=ManimColor(color),add_vertex_dots=True,vertex_dot_radius=0.06,vertex_dot_style=None)
+
+        labels = ["No Visits", "Some Visits", "Some Visits", "Many Visits"]
+        x_labels = VGroup()
+
+        for x, label in zip(x_values, labels):
+            text = Text(label, font_size=22).scale(0.4)
+            bg = BackgroundRectangle(text, fill_opacity=1, fill_color=BLACK, buff=0.1)
+            group = VGroup(bg, text)
+            group.move_to(plane.c2p((x)*1.08, 45))  # Adjust y as needed for label placement
+            x_labels.add(group)
+
+        for label in plane.y_axis.numbers:
+            label.shift(LEFT*0.5)
+
+
+        VGroup(plane, graph, x_labels).scale(0.5)
+        return plane, graph, x_labels
 
     def create_line_graph(self, y_values, y_range, color, description):
         """Create a professional line graph"""
@@ -356,7 +398,7 @@ class PrisonDataVisualization(Scene):
         conclusion_group.move_to(ORIGIN)
 
         conclusion_bg.move_to(conclusion_points.get_center())
-        full_conclusion = VGroup(conclusion_bg, conclusion_group).scale(0.5)
+        full_conclusion = VGroup(conclusion_bg, conclusion_group).scale(0.2)
 
         self.play(FadeIn(conclusion_title, shift=UP * 0.5), run_time=2)
         self.wait(1)
@@ -374,7 +416,7 @@ class PrisonDataVisualization(Scene):
             text,
             font="Arial",
             weight=BOLD,
-            font_size=36,
+            font_size=16,
             color=BLUE_C,
             gradient=(BLUE_A, BLUE_D)
         )
@@ -388,7 +430,6 @@ class PrisonDataVisualization(Scene):
         ).next_to(title, DOWN, buff=0.1)
 
         title_group = VGroup(title, underline)
-        title_group.to_edge(UP, buff=0.8)
 
         self.play(
             Write(title, run_time=1.5),
@@ -398,9 +439,10 @@ class PrisonDataVisualization(Scene):
 
         # Smooth transition to corner
         title_group.generate_target()
-        title_group.target.scale(0.6).to_corner(UL, buff=0.5)
+        title_group.target.scale(0.2).shift(UP*0.2)
         self.play(MoveToTarget(title_group), run_time=1.2)
 
+        title_group.scale(0.2)
         return title_group
 
     def animate_pie_chart(self, pie_chart):
@@ -444,7 +486,7 @@ class PrisonDataVisualization(Scene):
             stroke_width=2
         )
         
-        title = VGroup(bg, title_text).scale(0.5)
+        title = VGroup(bg, title_text).scale(0.2)
 
         # Smooth entrance
         self.play(DrawBorderThenFill(bg), FadeIn(title_text), run_time=1.5)
@@ -452,7 +494,7 @@ class PrisonDataVisualization(Scene):
 
         # Smooth transition to top
         title.generate_target()
-        title.target.scale(0.7).to_edge(UP, buff=0.3)
+        title.target.scale(0.2).shift(UP*0.2)
         self.play(MoveToTarget(title), run_time=1.2)
         self.wait(0.5)
 
