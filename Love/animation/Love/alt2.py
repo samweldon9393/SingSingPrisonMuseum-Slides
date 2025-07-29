@@ -261,7 +261,7 @@ class PrisonDataVisualization(Scene):
         self.play(FadeOut(explanation_group), run_time=1)
         
         self.wait(3)
-        self.play(FadeOut(VGroup(plane, new_plane, graph2, x_labels)), run_time=2)
+        self.play(FadeOut(VGroup(plane, new_plane, graph2, x_labels, sub2)), run_time=2)
 
     def line_graph(self, y_values, y_range, color):
         plane = Axes(
@@ -287,7 +287,7 @@ class PrisonDataVisualization(Scene):
         x_labels = VGroup()
 
         for x, label in zip(x_values, labels):
-            text = Text(label, font_size=22).scale(0.4)
+            text = Text(label, color=BLUE, font_size=22).scale(0.4)
             bg = BackgroundRectangle(text, fill_opacity=1, fill_color=BLACK, buff=0.1)
             group = VGroup(bg, text)
             group.move_to(plane.c2p((x)*1.08, 45))  # Adjust y as needed for label placement
