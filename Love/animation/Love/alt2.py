@@ -205,14 +205,15 @@ class PrisonDataVisualization(Scene):
         self.play(DrawBorderThenFill(citation_bg), run_time=1)
         self.play(FadeIn(citation), run_time=2)
         self.wait(3)
-        self.play(FadeOut(VGroup(citation_group, section_title)), run_time=1.5)
+        self.play(FadeOut(VGroup(citation_group)), run_time=1.5)
 
         # Create dual line graph
         self.create_dual_line_graph()
 
     def create_dual_line_graph(self):
         """Create professional dual-line graph with proper animations"""
-        self.title_sequence("Is there a connection between visits and misconduct?")
+        title = self.title_sequence("Is there a connection between visits and misconduct?")
+        self.play(FadeOut(title))
         self.wait(1)
 
         # First graph - No misconduct
@@ -224,6 +225,9 @@ class PrisonDataVisualization(Scene):
         self.add(plane)
         self.add(x_labels)
         self.wait(1)
+
+        # No misconduct subtitle 
+        sub1 = self.create_subtitle("This line represents inmates with no misconduct")
 
         # Animate first line
         self.play(Create(graph1), run_time=4)
@@ -237,10 +241,12 @@ class PrisonDataVisualization(Scene):
         )
         VGroup(new_plane, graph2, x_labels).shift(DOWN*.15)
         self.wait(1)
-        self.play(FadeOut(graph1))
+        self.play(FadeOut(graph1), FadeOut(sub1))
         self.play(ReplacementTransform(plane, new_plane))
 
 
+        # No misconduct subtitle 
+        sub2 = self.create_subtitle("This line represents inmates with heavy misconduct")
 
         # Add explanation for second line
         explanation = Text("inmates with heavy misconduct", font_size=20, font="Arial", color=RED_C)
@@ -443,6 +449,30 @@ class PrisonDataVisualization(Scene):
 
         return title_group
 
+    def create_subtitle(self, text):
+        """Create and animate a professional section title"""
+        title = Text(
+            text,
+            font="Arial",
+            weight=BOLD,
+            font_size=46,
+            color=BLUE_C,
+            gradient=(BLUE_A, BLUE_D)
+        ).scale(0.2)
+
+        self.play(
+            Write(title, run_time=1.5),
+            Create(underline, run_time=1),
+        )
+        self.wait(0.5)
+
+        # Smooth transition to corner
+        title.generate_target()
+        title.target.scale(0.4).shift(DOWN*0.9)
+        self.play(MoveToTarget(title), run_time=1.2)
+
+        return title_group
+
     def animate_pie_chart(self, pie_chart):
         """Animate pie chart creation with professional timing and effects"""
         # Initial rotation for dynamic entrance
@@ -490,10 +520,5 @@ class PrisonDataVisualization(Scene):
         self.play(DrawBorderThenFill(bg), FadeIn(title_text), run_time=1.5)
         self.wait(2.5)
 
-        # Smooth transition to top
-        title.generate_target()
-        title.target.scale(0.2).shift(UP*0.2)
-        self.play(MoveToTarget(title), run_time=1.2)
-        self.wait(0.5)
 
         return title
