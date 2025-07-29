@@ -462,7 +462,6 @@ class PrisonDataVisualization(Scene):
 
         self.play(
             Write(title, run_time=1.5),
-            Create(underline, run_time=1),
         )
         self.wait(0.5)
 
@@ -471,7 +470,7 @@ class PrisonDataVisualization(Scene):
         title.target.scale(0.4).shift(DOWN*0.9)
         self.play(MoveToTarget(title), run_time=1.2)
 
-        return title_group
+        return title
 
     def animate_pie_chart(self, pie_chart):
         """Animate pie chart creation with professional timing and effects"""
