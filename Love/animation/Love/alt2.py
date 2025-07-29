@@ -180,7 +180,6 @@ class PrisonDataVisualization(Scene):
     def show_connection_analysis(self):
         """Show the correlation between visits and misconduct"""
         section_title = self.create_section_title("The Connection: Visits vs. Misconduct")
-        self.play(Write(section_title))
 
         # Study citation with better formatting
         citation = VGroup(
@@ -416,17 +415,17 @@ class PrisonDataVisualization(Scene):
             text,
             font="Arial",
             weight=BOLD,
-            font_size=16,
+            font_size=46,
             color=BLUE_C,
             gradient=(BLUE_A, BLUE_D)
-        )
+        ).scale(0.2)
 
         # Enhanced underline with gradient effect
         underline = Line(
             LEFT * title.width / 2,
             RIGHT * title.width / 2,
             color=BLUE_C,
-            stroke_width=3
+            stroke_width=2
         ).next_to(title, DOWN, buff=0.1)
 
         title_group = VGroup(title, underline)
@@ -439,10 +438,9 @@ class PrisonDataVisualization(Scene):
 
         # Smooth transition to corner
         title_group.generate_target()
-        title_group.target.scale(0.2).shift(UP*0.2)
+        title_group.target.scale(0.4).shift(UP*0.8)
         self.play(MoveToTarget(title_group), run_time=1.2)
 
-        title_group.scale(0.2)
         return title_group
 
     def animate_pie_chart(self, pie_chart):
