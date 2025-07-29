@@ -55,6 +55,7 @@ class PrisonDataVisualization(Scene):
         
         # Main title sequence
         self.show_main_title()
+        self.citation()
 
         # Visit data visualization
         self.show_visit_data()
@@ -71,7 +72,7 @@ class PrisonDataVisualization(Scene):
     def show_main_title(self):
         """Display the main title with professional styling"""
         title = Text(
-            "The Impact of Prison Visits on Inmate Behavior",
+            "The Impact of Prison Visits on Incarcerated Behavior",
             font="Arial",
             weight=BOLD,
             font_size=48,
@@ -128,8 +129,8 @@ class PrisonDataVisualization(Scene):
         # Enhanced key finding with better positioning
         finding = VGroup(
             Text("Key Finding:", font="Arial", weight=BOLD, font_size=32, color=RED_C),
-            Text("75% of inmates", font="Arial", weight=BOLD, font_size=28, color=WHITE),
-            Text("receive no visits", font="Arial", font_size=24, color=GRAY_A)
+            Text("75% of incarcerated men", font="Arial", weight=BOLD, font_size=28, color=WHITE),
+            Text("received no visits", font="Arial", font_size=24, color=GRAY_A)
         ).arrange(DOWN, buff=0.3).shift(RIGHT*0.75).scale(0.2)
 
         # Animate pie chart creation
@@ -146,7 +147,7 @@ class PrisonDataVisualization(Scene):
 
     def show_misconduct_data(self):
         """Display misconduct data with pie chart"""
-        section_title = self.create_section_title("Inmate Misconduct Incidents")
+        section_title = self.create_section_title("Misconduct Incidents")
 
         misconduct_data = {
             "None": 69,
@@ -161,7 +162,7 @@ class PrisonDataVisualization(Scene):
         # Enhanced key finding
         finding = VGroup(
             Text("Key Finding:", font="Arial", weight=BOLD, font_size=32, color=GREEN_C),
-            Text("69% of inmates", font="Arial", weight=BOLD, font_size=28, color=WHITE),
+            Text("69% of incarcerated men", font="Arial", weight=BOLD, font_size=28, color=WHITE),
             Text("had no infractions", font="Arial", font_size=24, color=GRAY_A)
         ).arrange(DOWN, buff=0.3).shift(RIGHT*0.75).scale(0.2)
 
@@ -177,10 +178,7 @@ class PrisonDataVisualization(Scene):
         self.wait(3)
         self.play(FadeOut(VGroup(pie_chart, finding, section_title)), run_time=1.5)
 
-    def show_connection_analysis(self):
-        """Show the correlation between visits and misconduct"""
-        section_title = self.create_section_title("The Connection: Visits vs. Misconduct")
-
+    def citation(self):
         # Study citation with better formatting
         citation = VGroup(
             Text("Study: Joshua Cochran, FSU College of Criminology (2012)",
@@ -207,6 +205,11 @@ class PrisonDataVisualization(Scene):
         self.wait(3)
         self.play(FadeOut(VGroup(citation_group)), run_time=1.5)
 
+    def show_connection_analysis(self):
+        """Show the correlation between visits and misconduct"""
+        section_title = self.create_section_title("The Connection: Visits vs. Misconduct")
+
+
         # Create dual line graph
         self.create_dual_line_graph()
 
@@ -223,11 +226,12 @@ class PrisonDataVisualization(Scene):
         )
         
         self.add(plane)
+        x_labels.next_to(plane.x_axis, DOWN, buff=0.2)
         self.add(x_labels)
         self.wait(1)
 
         # No misconduct subtitle 
-        sub1 = self.create_subtitle("This line represents inmates with no misconduct")
+        sub1 = self.create_subtitle("This line represents incarcerated men with no misconduct")
 
         # Animate first line
         self.play(Create(graph1), run_time=4)
@@ -236,20 +240,20 @@ class PrisonDataVisualization(Scene):
 
         # Second graph - Heavy misconduct
         y_values_heavy_misconduct = [5.6, 8.1, 0.7, 0]
-        new_plane, graph2, x_labels = self.line_graph(
+        new_plane, graph2, x_labels2 = self.line_graph(
             y_values_heavy_misconduct, [-10, 20, 5], '#f50f0f'
         )
-        VGroup(new_plane, graph2, x_labels).shift(DOWN*.15)
+        VGroup(new_plane, graph2, x_labels2).shift(DOWN*.15)
         self.wait(1)
         self.play(FadeOut(graph1), FadeOut(sub1))
         self.play(ReplacementTransform(plane, new_plane))
 
 
         # No misconduct subtitle 
-        sub2 = self.create_subtitle("This line represents inmates with heavy misconduct")
+        sub2 = self.create_subtitle("This line represents incarcerated men with heavy misconduct")
 
         # Add explanation for second line
-        explanation = Text("inmates with heavy misconduct", font_size=20, font="Arial", color=RED_C)
+        explanation = Text("Inmates with heavy misconduct", font_size=20, font="Arial", color=RED_C)
         explanation_bg = BackgroundRectangle(explanation, fill_opacity=0.8, fill_color=BLACK, buff=0.2)
         explanation_group = VGroup(explanation_bg, explanation).move_to(UP * 2).scale(0.2)
         
@@ -346,7 +350,7 @@ class PrisonDataVisualization(Scene):
             x_labels.add(group)
 
         # Y-axis label
-        y_label = Text("Percentage of Inmates", font="Arial", font_size=18, color=GRAY_A)
+        y_label = Text("Percentage of inmates", font="Arial", font_size=18, color=GRAY_A)
         y_label.rotate(90 * DEGREES)
         y_label.next_to(plane.y_axis, LEFT, buff=0.5)
 
@@ -381,7 +385,7 @@ class PrisonDataVisualization(Scene):
         conclusion_points = VGroup(
             Text("• More visits correlate with less misconduct",
                  font="Arial", font_size=28, color=GREEN_C, weight=MEDIUM),
-            Text("• Family connections improve inmate behavior",
+            Text("• Family connections improve incarcerated person's lives",
                  font="Arial", font_size=28, color=GREEN_C, weight=MEDIUM),
             Text("• Prison visitation programs show measurable impact",
                  font="Arial", font_size=28, color=GREEN_C, weight=MEDIUM)
@@ -437,7 +441,7 @@ class PrisonDataVisualization(Scene):
         title_group = VGroup(title, underline)
 
         self.play(
-            Write(title, run_time=1.5),
+            FadeIn(title, run_time=1.5),
             Create(underline, run_time=1),
         )
         self.wait(0.5)
@@ -461,7 +465,7 @@ class PrisonDataVisualization(Scene):
         ).scale(0.2)
 
         self.play(
-            Write(title, run_time=1.5),
+            FadeIn(title, run_time=1.5),
         )
         self.wait(0.5)
 
