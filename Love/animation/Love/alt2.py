@@ -226,7 +226,7 @@ class PrisonDataVisualization(Scene):
         )
         
         self.add(plane)
-        x_labels.next_to(plane.x_axis, DOWN, buff=0.2)
+        x_labels.next_to(plane.x_axis, DOWN, buff=0.1).shift(UP*0.1)
         self.add(x_labels)
         self.wait(1)
 
@@ -245,7 +245,9 @@ class PrisonDataVisualization(Scene):
         )
         VGroup(new_plane, graph2, x_labels2).shift(DOWN*.15)
         self.wait(1)
+        graph2.move_to(graph1)
         self.play(FadeOut(graph1), FadeOut(sub1))
+        new_plane.move_to(plane)
         self.play(ReplacementTransform(plane, new_plane))
 
 
@@ -291,11 +293,9 @@ class PrisonDataVisualization(Scene):
         x_labels = VGroup()
 
         for x, label in zip(x_values, labels):
-            text = Text(label, color=BLUE, font_size=22).scale(0.4)
-            bg = BackgroundRectangle(text, fill_opacity=1, fill_color=BLACK, buff=0.1)
-            group = VGroup(bg, text)
-            group.move_to(plane.c2p((x)*1.08, 45))  # Adjust y as needed for label placement
-            x_labels.add(group)
+            text = Text(label, color=WHITE, font='Arial', font_size=22).scale(0.4)
+            text.move_to(plane.c2p((x)*1.08, 45))  # Adjust y as needed for label placement
+            x_labels.add(text)
 
         for label in plane.y_axis.numbers:
             label.shift(LEFT*0.5)
@@ -471,7 +471,7 @@ class PrisonDataVisualization(Scene):
 
         # Smooth transition to corner
         title.generate_target()
-        title.target.scale(0.4).shift(DOWN*0.9)
+        title.target.scale(0.4).shift(DOWN)
         self.play(MoveToTarget(title), run_time=1.2)
 
         return title
