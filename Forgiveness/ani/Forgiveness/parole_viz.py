@@ -25,9 +25,6 @@ class ParoleVisualization(Scene):
         # Scale of the problem
         self.scale_sequence()
         
-        # Crime reduction potential
-        self.crime_reduction_sequence()
-        
         # The solution
         self.solution_sequence()
         
@@ -35,8 +32,8 @@ class ParoleVisualization(Scene):
         self.call_to_action()
 
     def title_sequence(self):
-        title = Text("The Parole System", font_size=60, color=ACCENT_COLOR, weight=BOLD).scale(0.2)
-        subtitle = Text("Data Reveals a Broken Promise", font_size=36, color=TEXT_COLOR).scale(0.2)
+        title = Text("Forgiveness - And To Whom Its Given", font_size=60, color=ACCENT_COLOR, weight=BOLD).scale(0.2)
+        subtitle = Text("A Closer Look At Parole", font_size=36, color=TEXT_COLOR).scale(0.2)
         subtitle.next_to(title, DOWN, buff=0.5)
         
         self.play(Write(title), run_time=1.5)
@@ -60,8 +57,8 @@ class ParoleVisualization(Scene):
         self.play(FadeOut(hook_text))
 
     def racial_disparity_sequence(self):
-        title = Text("The Reality: Racial Disparities", font_size=44, color=ACCENT_COLOR).scale(0.2)
-        title.shift(UP*0.6)
+        title = Text("Racial Disparities", font_size=44, color=ACCENT_COLOR).scale(0.2)
+        title.shift(UP*0.8)
         
         # Create bar chart for racial disparities
         axes = Axes(
@@ -73,6 +70,7 @@ class ParoleVisualization(Scene):
             tips=False
         ).scale(0.2)
         axes.center()
+
         
         # Data for bars
         white_bar = Rectangle(height=25*4/30, width=1.5, color=WHITE, fill_opacity=0.8).scale(0.2)
@@ -89,14 +87,13 @@ class ParoleVisualization(Scene):
         black_label = Text("Black\n16.7%", font_size=24, color="#ff6b35").scale(0.2)
         hispanic_label = Text("Hispanic\n16.7%", font_size=24, color="#ff6b35").scale(0.2)
         
-        white_label.next_to(white_bar, DOWN, buff=0.6)
-        black_label.next_to(black_bar, DOWN, buff=0.6)
-        hispanic_label.next_to(hispanic_bar, DOWN, buff=0.6)
+        white_label.next_to(white_bar, DOWN*0.3, buff=0.6)
+        black_label.next_to(black_bar, DOWN*0.3, buff=0.6)
+        hispanic_label.next_to(hispanic_bar, DOWN*0.3, buff=0.6)
         
-        subtitle = Text("Release Rate After First Hearing", font_size=28, color=TEXT_COLOR).scale(0.2)
-        subtitle.next_to(axes, DOWN, buff=1)
         
         self.play(Write(title))
+        subtitle = self.create_subtitle("Rate of people released at their first parole hearing")
         self.play(Create(axes))
         self.play(
             DrawBorderThenFill(white_bar),
@@ -108,7 +105,6 @@ class ParoleVisualization(Scene):
             Write(white_label),
             Write(black_label),
             Write(hispanic_label),
-            Write(subtitle),
             run_time=1.5
         )
         self.wait(2)
@@ -148,7 +144,20 @@ class ParoleVisualization(Scene):
             run_time=2
         )
         self.wait(2)
-        self.play(FadeOut(title, total_text, dots, released_text))
+        self.play(FadeOut(released_text))
+
+        possible_dots = dots[80:196]  # Roughly 20% of 400 dots
+
+        possible_text = Text("We could have released another 5491 (49%) without increasing crime", font_size=32, color=WARNING_COLOR).scale(0.2)
+        possible_text.shift(DOWN*0.6)
+        
+        self.play(
+            possible_dots.animate.set_color(WARNING_COLOR).set_fill(opacity=1),
+            Write(possible_text),
+            run_time=2
+        )
+        self.wait(2)
+        self.play(FadeOut(title, total_text, dots, possible_text))
 
     def crime_reduction_sequence(self):
         title = Text("Crime Could Be DRAMATICALLY Lower", font_size=40, color=ACCENT_COLOR).scale(0.2)
@@ -257,4 +266,87 @@ class ParoleVisualization(Scene):
         self.play(Write(source), run_time=1.5)
         self.wait(3)
 
+    def create_section_title(self, text):
+        """Create and animate a professional section title"""
+        title = Text(
+            text,
+            font="Arial",
+            weight=BOLD,
+            font_size=46,
+            color=BLUE_C,
+            gradient=(BLUE_A, BLUE_D)
+        ).scale(0.2)
+
+        # Enhanced underline with gradient effect
+        underline = Line(
+            LEFT * title.width / 2,
+            RIGHT * title.width / 2,
+            color=BLUE_C,
+            stroke_width=2
+        ).next_to(title, DOWN, buff=0.1)
+
+        title_group = VGroup(title, underline)
+
+        self.play(
+            FadeIn(title, run_time=1.5),
+            Create(underline, run_time=1),
+        )
+        self.wait(0.5)
+
+        # Smooth transition to corner
+        title_group.generate_target()
+        title_group.target.scale(0.4).shift(UP*0.8)
+        self.play(MoveToTarget(title_group), run_time=1.2)
+
+        return title_group
+
+    def create_subtitle(self, text):
+        """Create and animate a professional section title"""
+        title = Text(
+            text,
+            font="Arial",
+            weight=BOLD,
+            font_size=46,
+            color=BLUE_C,
+            gradient=(BLUE_A, BLUE_D)
+        ).scale(0.2)
+
+        self.play(
+            FadeIn(title, run_time=1.5),
+        )
+        self.wait(0.5)
+
+        # Smooth transition to corner
+        title.generate_target()
+        title.target.scale(0.4).shift(DOWN)
+        self.play(MoveToTarget(title), run_time=1.2)
+
+        return title
+
+    def citation(self, text1, text2):
+        # Study citation with better formatting
+        citation = VGroup(
+            Text(text1,
+                 font="Arial", font_size=24, color=BLUE_A, weight=BOLD),
+            Text(text2,
+                 font="Arial", font_size=20, color=GRAY_A)
+        ).arrange(DOWN, buff=0.3).move_to(ORIGIN)
+
+        # Citation background
+        citation_bg = RoundedRectangle(
+            width=citation.width + 1,
+            height=citation.height + 0.5,
+            corner_radius=0.2,
+            fill_opacity=0.1,
+            fill_color=BLUE_D,
+            stroke_color=BLUE_C,
+            stroke_width=1
+        )
+
+        citation_group = VGroup(citation_bg, citation).scale(0.2)
+
+        self.play(DrawBorderThenFill(citation_bg), run_time=1)
+        self.play(FadeIn(citation), run_time=2)
+        self.wait(3)
+        self.play(FadeOut(VGroup(citation_group)), run_time=1.5)
 # To render: manim -pqh parole_viz.py ParoleVisualization
