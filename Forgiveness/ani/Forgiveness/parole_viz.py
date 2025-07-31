@@ -13,15 +13,18 @@ class ParoleVisualization(Scene):
         self.camera.background_color = "#0f1419"
         
         
+        '''
         # Title sequence
         self.title_sequence()
         
         # Hook
         self.hook_sequence()
         
+        '''
         # Racial disparities
         self.racial_disparity_sequence()
         
+        '''
         # Scale of the problem
         self.scale_sequence()
         
@@ -30,9 +33,10 @@ class ParoleVisualization(Scene):
         
         # Call to action
         self.call_to_action()
+        '''
 
     def title_sequence(self):
-        title = Text("Forgiveness - And To Whom Its Given", font_size=60, color=ACCENT_COLOR, weight=BOLD).scale(0.2)
+        title = Text("Forgiveness & Who Gets It", font_size=60, color=ACCENT_COLOR, weight=BOLD).scale(0.2)
         subtitle = Text("A Closer Look At Parole", font_size=36, color=TEXT_COLOR).scale(0.2)
         subtitle.next_to(title, DOWN, buff=0.5)
         
@@ -43,7 +47,7 @@ class ParoleVisualization(Scene):
 
     def hook_sequence(self):
         hook_text = Text(
-            "What if we could cut\nincarceration in HALF\nwithout increasing crime?",
+            "According to NYU\nBased on figures from 2023\nRace plays a large role in parole decisions",
             font_size=48,
             color=TEXT_COLOR,
             line_spacing=1.2
@@ -73,43 +77,36 @@ class ParoleVisualization(Scene):
 
         
         # Data for bars
-        white_bar = Rectangle(height=25*4/30, width=1.5, color=WHITE, fill_opacity=0.8).scale(0.2)
-        black_bar = Rectangle(height=16.7*4/30, width=1.5, color="#ff6b35", fill_opacity=0.8).scale(0.2)
-        hispanic_bar = Rectangle(height=16.7*4/30, width=1.5, color="#ff6b35", fill_opacity=0.8).scale(0.2)
+        white_bar = Rectangle(height=45*4/30, width=1.5, color=WHITE, fill_opacity=0.8).scale(0.2)
+        black_bar = Rectangle(height=32*4/30, width=1.5, color="#ff6b35", fill_opacity=0.8).scale(0.2)
         
         # Position bars
-        white_bar.move_to(axes.c2p(0.5, 12.5))
-        black_bar.move_to(axes.c2p(1.5, 8.35))
-        hispanic_bar.move_to(axes.c2p(2.5, 8.35))
+        white_bar.move_to(axes.c2p(1, 14.5))
+        black_bar.move_to(axes.c2p(2, 8.35))
         
         # Labels
-        white_label = Text("White\n25%", font_size=24, color=WHITE).scale(0.2)
-        black_label = Text("Black\n16.7%", font_size=24, color="#ff6b35").scale(0.2)
-        hispanic_label = Text("Hispanic\n16.7%", font_size=24, color="#ff6b35").scale(0.2)
+        white_label = Text("White People\n45%", font_size=24, color=WHITE).scale(0.2)
+        black_label = Text("People of Color\n32%", font_size=24, color="#ff6b35").scale(0.2)
         
-        white_label.next_to(white_bar, DOWN*0.3, buff=0.6)
-        black_label.next_to(black_bar, DOWN*0.3, buff=0.6)
-        hispanic_label.next_to(hispanic_bar, DOWN*0.3, buff=0.6)
+        white_label.next_to(white_bar, DOWN*0.35, buff=0.6)
+        black_label.next_to(black_bar, DOWN*0.35, buff=0.6)
         
         
         self.play(Write(title))
-        subtitle = self.create_subtitle("Rate of people released at their first parole hearing")
-        self.play(Create(axes))
+        subtitle = self.create_subtitle("Chance of being granted parole")
         self.play(
             DrawBorderThenFill(white_bar),
             DrawBorderThenFill(black_bar),
-            DrawBorderThenFill(hispanic_bar),
             run_time=2
         )
         self.play(
             Write(white_label),
             Write(black_label),
-            Write(hispanic_label),
             run_time=1.5
         )
         self.wait(2)
-        self.play(FadeOut(title, axes, white_bar, black_bar, hispanic_bar, 
-                          white_label, black_label, hispanic_label, subtitle))
+        self.play(FadeOut(title, white_bar, black_bar, 
+                          white_label, black_label, subtitle))
 
     def scale_sequence(self):
         title = Text("The Scale of the Problem", font_size=44, color=ACCENT_COLOR).scale(0.2)
