@@ -158,11 +158,12 @@ class ParoleVisualization(Scene):
         self.play(FadeOut(title, total_text, dots, possible_text))
 
     def prison_days_sequence(self):
-        title = Text("The Human Cost of Delays", font_size=44, color=ACCENT_COLOR).scale(0.2)
+        title = Text("What does it mean to have your parole denied?", font_size=44, color=ACCENT_COLOR).scale(0.2)
         title.shift(UP*0.6)
+        self.wait(3)
 
         # Start with one day
-        single_day = Square(side_length=0.8, color=WHITE, fill_opacity=0.3).scale(0.2)
+        single_day = Square(side_length=0.04, color=WARNING_COLOR, fill_opacity=0.6).scale(0.2)
         single_day.shift(UP*0.2)
         
         day_label = Text("1 Day in Prison", font_size=28, color=TEXT_COLOR).scale(0.2)
@@ -173,14 +174,14 @@ class ParoleVisualization(Scene):
             DrawBorderThenFill(single_day),
             Write(day_label)
         )
-        self.wait(1)
+        self.wait(3)
 
         # Show 2 years worth of days
-        wait_text = Text("Average wait for next parole hearing: 2 years", font_size=32, color=WARNING_COLOR).scale(0.2)
+        wait_text = Text("The average wait for next parole hearing is 2 years", font_size=32, color=WARNING_COLOR).scale(0.2)
         wait_text.shift(DOWN*0.4)
         
         self.play(Write(wait_text))
-        self.wait(1)
+        self.wait(4)
         
         # Create grid representing 730 days (2 years)
         days_grid = VGroup()
@@ -194,51 +195,52 @@ class ParoleVisualization(Scene):
         days_count = Text("730 Days", font_size=24, color=WARNING_COLOR).scale(0.2)
         days_count.next_to(days_grid, DOWN, buff=0.08)
 
-        self.play(FadeOut(single_day, day_label, wait_text))
-        self.play(Create(days_grid), Write(days_count), run_time=2)
-        self.wait(1.5)
+        self.play(FadeOut(day_label, wait_text))
+        self.play(ReplacementTransform(single_day, days_grid), Write(days_count), run_time=2)
+        self.wait(5)
+
+        # Turn 730 days into 1 square
+        shrink_text = Text("Now lets pack all those days back into 1 square", font_size=24, color=WARNING_COLOR).scale(0.2)
+        shrink_text.shift(DOWN*0.5)
+        single_day = Square(side_length=0.04, color=WARNING_COLOR, fill_opacity=0.6).scale(0.2)
+        self.play(ReplacementTransform(days_grid, single_day), Write(shrink_text), run_time=2)
+        scale_note = Text("Each dot is ~2 years", font_size=20, color=TEXT_COLOR).scale(0.2)
+        scale_note.shift(DOWN*0.7)
+        self.play(FadeIn(scale_note))
 
         # Now show the massive scale
-        massive_text = Text("5,490 people denied parole unnecessarily", font_size=32, color=TEXT_COLOR).scale(0.2)
+        massive_text = Text("In a 2 year sample, 5,490 people were denied parole unnecessarily", font_size=32, color=TEXT_COLOR).scale(0.2)
         massive_text.shift(UP*0.4)
         
-        total_days = Text("= 4,007,700 unnecessary days in prison", font_size=36, color=WARNING_COLOR, weight=BOLD).scale(0.2)
+        total_days = self.bg_text("That's 4,007,700 unnecessary days in prison\nOver 10,000 YEARS of human life wasted")
         total_days.shift(DOWN*0.2)
 
         self.play(
-            FadeOut(days_grid, days_count),
+            FadeOut(days_count, shrink_text),
             Write(massive_text)
         )
-        self.wait(1)
+        self.wait(4)
         
         # Create visual representation of the massive number
         # Use dots to represent chunks of days (each dot = 1000 days)
         massive_dots = VGroup()
-        for i in range(40):
+        for i in range(50):
             for j in range(100):
-                if len(massive_dots) < 4008:  # Roughly 4,007,700 / 1000
+                if len(massive_dots) < 5008:  # Roughly 4,007,700 / 1000
                     dot = Dot(radius=0.008, color=WARNING_COLOR, fill_opacity=0.8)
                     dot.move_to([j*0.016 - 0.8, -i*0.016 + 0.3, 0])
                     massive_dots.add(dot)
 
-        scale_note = Text("Each dot = 1,000 days", font_size=20, color=TEXT_COLOR).scale(0.2)
-        scale_note.shift(DOWN*0.5)
 
         self.play(
             Write(total_days),
-            Create(massive_dots),
-            Write(scale_note),
+            ReplacementTransform(single_day, massive_dots),
             run_time=3
         )
         
-        # Final impact statement
-        impact_text = Text("That's over 10,000 YEARS of human life wasted", font_size=32, color=WARNING_COLOR, weight=BOLD).scale(0.2)
-        impact_text.shift(DOWN*0.35)
+        self.wait(5)
         
-        self.play(Write(impact_text))
-        self.wait(3)
-        
-        self.play(FadeOut(title, massive_text, total_days, massive_dots, scale_note, impact_text))
+        self.play(FadeOut(title, massive_text, total_days, massive_dots, scale_note))
 
     def crime_reduction_sequence(self):
         title = Text("Crime Could Be DRAMATICALLY Lower", font_size=40, color=ACCENT_COLOR).scale(0.2)
@@ -430,4 +432,24 @@ class ParoleVisualization(Scene):
         self.play(FadeIn(citation), run_time=2)
         self.wait(3)
         self.play(FadeOut(VGroup(citation_group)), run_time=1.5)
+
+    def bg_text(self, text):
+        citation = VGroup(
+            Text(text,
+                 font="Arial", font_size=24, color=BLUE_A, weight=BOLD),
+        ).arrange(DOWN, buff=0.3).move_to(ORIGIN)
+
+        # Citation background
+        citation_bg = RoundedRectangle(
+            width=citation.width + 1,
+            height=citation.height + 0.5,
+            corner_radius=0.0,
+            fill_opacity=0.7,
+            fill_color=BLUE_D,
+            stroke_color=BLUE_C,
+            stroke_width=1
+        )
+
+        citation_group = VGroup(citation_bg, citation).scale(0.2)
+        return citation_group
 # To render: manim -pqh parole_viz.py ParoleVisualization
