@@ -14,6 +14,7 @@ class ParoleVisualization(Scene):
         
         
         '''
+        '''
         # Title sequence
         self.title_sequence()
         
@@ -22,12 +23,16 @@ class ParoleVisualization(Scene):
         
         # Racial disparities
         self.racial_disparity_sequence()
-        
-        '''
-        self.prison_days_sequence()
-        '''
+
+        # Citation 
+        self.do_citation()
+
         # Scale of the problem
         self.scale_sequence()
+        
+        # 10,000 years
+        self.prison_days_sequence()
+        '''
         
         # The solution
         self.solution_sequence()
@@ -45,6 +50,11 @@ class ParoleVisualization(Scene):
         self.play(Write(subtitle), run_time=1.5)
         self.wait(1)
         self.play(FadeOut(title, subtitle))
+
+    def do_citation(self):
+        t1 = "Study: An Algorithmic Assessment of Parole Decisions"
+        t2 = "-  Hannah S. Laqueur & Ryan W. Copus"
+        self.citation(t1, t2)
 
     def hook_sequence(self):
         hook_text = Text(
@@ -160,7 +170,6 @@ class ParoleVisualization(Scene):
     def prison_days_sequence(self):
         title = Text("What does it mean to have your parole denied?", font_size=44, color=ACCENT_COLOR).scale(0.2)
         title.shift(UP*0.6)
-        self.wait(3)
 
         # Start with one day
         single_day = Square(side_length=0.04, color=WARNING_COLOR, fill_opacity=0.6).scale(0.2)
@@ -170,6 +179,8 @@ class ParoleVisualization(Scene):
         day_label.next_to(single_day, DOWN, buff=0.1)
 
         self.play(Write(title))
+        self.wait(3)
+
         self.play(
             DrawBorderThenFill(single_day),
             Write(day_label)
@@ -177,7 +188,7 @@ class ParoleVisualization(Scene):
         self.wait(3)
 
         # Show 2 years worth of days
-        wait_text = Text("The average wait for next parole hearing is 2 years", font_size=32, color=WARNING_COLOR).scale(0.2)
+        wait_text = Text("The average wait for another parole hearing is 2 years", font_size=32, color=WARNING_COLOR).scale(0.2)
         wait_text.shift(DOWN*0.4)
         
         self.play(Write(wait_text))
@@ -204,9 +215,8 @@ class ParoleVisualization(Scene):
         shrink_text.shift(DOWN*0.5)
         single_day = Square(side_length=0.04, color=WARNING_COLOR, fill_opacity=0.6).scale(0.2)
         self.play(ReplacementTransform(days_grid, single_day), Write(shrink_text), run_time=2)
-        scale_note = Text("Each dot is ~2 years", font_size=20, color=TEXT_COLOR).scale(0.2)
+        scale_note = Text("Each square is ~2 years", font_size=20, color=TEXT_COLOR).scale(0.2)
         scale_note.shift(DOWN*0.7)
-        self.play(FadeIn(scale_note))
 
         # Now show the massive scale
         massive_text = Text("In a 2 year sample, 5,490 people were denied parole unnecessarily", font_size=32, color=TEXT_COLOR).scale(0.2)
@@ -215,6 +225,7 @@ class ParoleVisualization(Scene):
         total_days = self.bg_text("That's 4,007,700 unnecessary days in prison\nOver 10,000 YEARS of human life wasted")
         total_days.shift(DOWN*0.2)
 
+        self.wait(3)
         self.play(
             FadeOut(days_count, shrink_text),
             Write(massive_text)
@@ -235,6 +246,7 @@ class ParoleVisualization(Scene):
         self.play(
             Write(total_days),
             ReplacementTransform(single_day, massive_dots),
+            FadeIn(scale_note),
             run_time=3
         )
         
