@@ -53,7 +53,7 @@ class ParoleVisualization(Scene):
 
     def do_citation(self):
         t1 = "Study: An Algorithmic Assessment of Parole Decisions"
-        t2 = "-  Hannah S. Laqueur & Ryan W. Copus"
+        t2 = "by  Hannah S. Laqueur & Ryan W. Copus"
         self.citation(t1, t2)
 
     def hook_sequence(self):
@@ -99,8 +99,8 @@ class ParoleVisualization(Scene):
         white_label = Text("White People\n45%", font_size=24, color=WHITE).scale(0.2)
         black_label = Text("People of Color\n32%", font_size=24, color="#ff6b35").scale(0.2)
         
-        white_label.next_to(white_bar, DOWN*0.35, buff=0.6)
-        black_label.next_to(black_bar, DOWN*0.35, buff=0.6)
+        white_label.next_to(white_bar, DOWN*0.3, buff=0.6)
+        black_label.next_to(black_bar, DOWN*0.3, buff=0.6)
         
         
         self.play(Write(title))
@@ -125,7 +125,7 @@ class ParoleVisualization(Scene):
         
         # Create dots representing hearings
         total_text = Text("19,713 Parole Hearings", font_size=36, color=TEXT_COLOR).scale(0.2)
-        total_text.next_to(title, DOWN, buff=1)
+        total_text.next_to(title, DOWN*1.5, buff=1)
         
         # Create grid of dots
         dots = VGroup()
@@ -135,6 +135,7 @@ class ParoleVisualization(Scene):
                 dot.move_to([i*0.3 - 3, j*0.2 - 2, 0])
                 dots.add(dot)
         dots.scale(0.2)
+        dots.move_to(ORIGIN)
         
         # Highlight released dots (about 20%)
         released_dots = dots[:80]  # Roughly 20% of 400 dots
@@ -156,7 +157,7 @@ class ParoleVisualization(Scene):
 
         possible_dots = dots[80:196]  # Roughly 20% of 400 dots
 
-        possible_text = Text("We could have released another 5491 (49%) without increasing crime", font_size=32, color=WARNING_COLOR).scale(0.2)
+        possible_text = Text("We could have released another 5491 without increasing crime", font_size=32, color=WARNING_COLOR).scale(0.2)
         possible_text.shift(DOWN*0.6)
         
         self.play(
@@ -320,7 +321,7 @@ class ParoleVisualization(Scene):
                           v_before_label, v_after_label, improvement))
 
     def solution_sequence(self):
-        title = Text("The Solution: Evidence-Based Decisions", font_size=40, color=ACCENT_COLOR).scale(0.2)
+        title = Text("", font_size=40, color=ACCENT_COLOR).scale(0.2)
         title.shift(UP*0.6)
         
         # Key metrics
@@ -431,7 +432,6 @@ class ParoleVisualization(Scene):
         citation_bg = RoundedRectangle(
             width=citation.width + 1,
             height=citation.height + 0.5,
-            corner_radius=0.2,
             fill_opacity=0.1,
             fill_color=BLUE_D,
             stroke_color=BLUE_C,
