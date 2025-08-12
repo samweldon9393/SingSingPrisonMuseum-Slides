@@ -72,7 +72,7 @@ class PrisonDataVisualization(Scene):
     def show_main_title(self):
         """Display the main title with professional styling"""
         title = Text(
-            "The Impact of Prison Visits on Incarcerated Behavior",
+            "Love Doesn't Stop at the Gates",
             font="Arial",
             weight=BOLD,
             font_size=48,
@@ -80,7 +80,7 @@ class PrisonDataVisualization(Scene):
         )
 
         subtitle = Text(
-            "A Data-Driven Analysis",
+            "How visit frequency impacts incarcerated people's lives",
             font="Arial",
             font_size=28,
             color=GRAY_A
@@ -92,7 +92,7 @@ class PrisonDataVisualization(Scene):
         bg = RoundedRectangle(
             width=title_group.width + 1.5,
             height=title_group.height + 1.0,
-            corner_radius=0.3,
+            corner_radius=0.0,
             fill_opacity=0.15,
             fill_color=BLUE_D,
             stroke_color=BLUE_C,
@@ -191,7 +191,7 @@ class PrisonDataVisualization(Scene):
         citation_bg = RoundedRectangle(
             width=citation.width + 1,
             height=citation.height + 0.5,
-            corner_radius=0.2,
+            corner_radius=0.0,
             fill_opacity=0.1,
             fill_color=BLUE_D,
             stroke_color=BLUE_C,
@@ -231,11 +231,14 @@ class PrisonDataVisualization(Scene):
         self.wait(1)
 
         # No misconduct subtitle 
-        sub1 = self.create_subtitle("This line represents incarcerated men with no misconduct")
+        sub1 = self.create_subtitle("This line represents visit frequency for incarcerated men with no misconduct")
 
         # Animate first line
         self.play(Create(graph1), run_time=4)
         self.wait(2)
+
+        ex1 = self.title_sequence("Men who received less citations received more visits")
+        self.play(FadeOut(ex1))
 
 
         # Second graph - Heavy misconduct
@@ -252,7 +255,7 @@ class PrisonDataVisualization(Scene):
 
 
         # No misconduct subtitle 
-        sub2 = self.create_subtitle("This line represents incarcerated men with heavy misconduct")
+        sub2 = self.create_subtitle("This line represents visit frequency for incarcerated men with heavy misconduct")
 
         # Add explanation for second line
         explanation = Text("Inmates with heavy misconduct", font_size=20, font="Arial", color=RED_C)
@@ -264,6 +267,9 @@ class PrisonDataVisualization(Scene):
         self.play(explanation_group.animate.set_opacity(0.6))
         
         self.play(Create(graph2), run_time=4)
+        ex2 = self.title_sequence("Men who received more citations received less visits")
+        self.play(FadeOut(ex2))
+
         self.play(FadeOut(explanation_group), run_time=1)
         
         self.wait(3)
@@ -383,11 +389,11 @@ class PrisonDataVisualization(Scene):
         )
 
         conclusion_points = VGroup(
-            Text("• More visits correlate with less misconduct",
+            Text("• More visits correlate with better outcomes",
                  font="Arial", font_size=28, color=GREEN_C, weight=MEDIUM),
-            Text("• Family connections improve incarcerated person's lives",
+            Text("• Connection to the outside world matters",
                  font="Arial", font_size=28, color=GREEN_C, weight=MEDIUM),
-            Text("• Prison visitation programs show measurable impact",
+            Text("• Family and friend support makes a measurable difference",
                  font="Arial", font_size=28, color=GREEN_C, weight=MEDIUM)
         ).arrange(DOWN, buff=0.6, aligned_edge=LEFT)
 
@@ -395,7 +401,7 @@ class PrisonDataVisualization(Scene):
         conclusion_bg = RoundedRectangle(
             width=conclusion_points.width + 2,
             height=conclusion_points.height + 1,
-            corner_radius=0.3,
+            corner_radius=0.0,
             fill_opacity=0.1,
             fill_color=GREEN_D,
             stroke_color=GREEN_C,
@@ -459,7 +465,7 @@ class PrisonDataVisualization(Scene):
             text,
             font="Arial",
             weight=BOLD,
-            font_size=46,
+            font_size=36,
             color=BLUE_C,
             gradient=(BLUE_A, BLUE_D)
         ).scale(0.2)
@@ -510,7 +516,7 @@ class PrisonDataVisualization(Scene):
         bg = RoundedRectangle(
             width=title_text.width + 1,
             height=title_text.height + 0.5,
-            corner_radius=0.2,
+            corner_radius=0.0,
             fill_opacity=0.8,
             fill_color=BLACK,
             stroke_color=BLUE_C,
