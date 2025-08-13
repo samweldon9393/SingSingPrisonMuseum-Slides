@@ -24,6 +24,9 @@ class ParoleVisualization(Scene):
         # Racial disparities
         self.racial_disparity_sequence()
 
+        # Call to action
+        self.call_to_action()
+
         # Citation 
         self.do_citation()
 
@@ -32,23 +35,18 @@ class ParoleVisualization(Scene):
         
         # 10,000 years
         self.prison_days_sequence()
-        '''
         
         # The solution
-        self.solution_sequence()
-        
-        # Call to action
-        self.call_to_action()
-        '''
+        self.conclusion()
 
     def title_sequence(self):
         title = Text("Forgiveness & Who Gets It", font_size=60, color=ACCENT_COLOR, weight=BOLD).scale(0.2)
         subtitle = Text("A Closer Look At Parole", font_size=36, color=TEXT_COLOR).scale(0.2)
         subtitle.next_to(title, DOWN, buff=0.5)
         
-        self.play(Write(title), run_time=1.5)
-        self.play(Write(subtitle), run_time=1.5)
-        self.wait(1)
+        self.play(FadeIn(title), run_time=1.5)
+        self.play(FadeIn(subtitle), run_time=1.5)
+        self.wait(3)
         self.play(FadeOut(title, subtitle))
 
     def do_citation(self):
@@ -67,8 +65,8 @@ class ParoleVisualization(Scene):
         # Emphasize "HALF"
         hook_text[21:25].set_color(WARNING_COLOR)  # "HALF"
         
-        self.play(Write(hook_text), run_time=2.5)
-        self.wait(1.5)
+        self.play(FadeIn(hook_text), run_time=2.5)
+        self.wait(3)
         self.play(FadeOut(hook_text))
 
     def racial_disparity_sequence(self):
@@ -103,7 +101,7 @@ class ParoleVisualization(Scene):
         black_label.next_to(black_bar, DOWN*0.3, buff=0.6)
         
         
-        self.play(Write(title))
+        self.play(FadeIn(title))
         subtitle = self.create_subtitle("Chance of being granted parole")
         self.play(
             DrawBorderThenFill(white_bar),
@@ -111,8 +109,8 @@ class ParoleVisualization(Scene):
             run_time=2
         )
         self.play(
-            Write(white_label),
-            Write(black_label),
+            FadeIn(white_label),
+            FadeIn(black_label),
             run_time=1.5
         )
         self.wait(2)
@@ -124,7 +122,7 @@ class ParoleVisualization(Scene):
         title.shift(UP*0.6)
         
         # Create dots representing hearings
-        total_text = Text("19,713 Parole Hearings", font_size=36, color=TEXT_COLOR).scale(0.2)
+        total_text = Text("Out of 19,713 Parole Hearings", font_size=36, color=TEXT_COLOR).scale(0.2)
         total_text.next_to(title, DOWN*1.5, buff=1)
         
         # Create grid of dots
@@ -140,19 +138,20 @@ class ParoleVisualization(Scene):
         # Highlight released dots (about 20%)
         released_dots = dots[:80]  # Roughly 20% of 400 dots
         
-        self.play(Write(title))
-        self.play(Write(total_text))
-        self.play(Create(dots), run_time=2)
+        self.play(FadeIn(title))
+        self.play(FadeIn(total_text))
+        self.play(Create(dots), run_time=4)
+        self.wait(3)
         
-        released_text = Text("Only 4,168 Released (21%)", font_size=32, color=WARNING_COLOR).scale(0.2)
+        released_text = Text("Only 4,168 Were Released (21%)", font_size=32, color=WARNING_COLOR).scale(0.2)
         released_text.shift(DOWN*0.6)
         
         self.play(
             released_dots.animate.set_color(SUCCESS_COLOR).set_fill(opacity=1),
-            Write(released_text),
+            FadeIn(released_text),
             run_time=2
         )
-        self.wait(2)
+        self.wait(3)
         self.play(FadeOut(released_text))
 
         possible_dots = dots[80:196]  # Roughly 20% of 400 dots
@@ -162,14 +161,14 @@ class ParoleVisualization(Scene):
         
         self.play(
             possible_dots.animate.set_color(WARNING_COLOR).set_fill(opacity=1),
-            Write(possible_text),
+            FadeIn(possible_text),
             run_time=2
         )
-        self.wait(2)
+        self.wait(5)
         self.play(FadeOut(title, total_text, dots, possible_text))
 
     def prison_days_sequence(self):
-        title = Text("What does it mean to have your parole denied?", font_size=44, color=ACCENT_COLOR).scale(0.2)
+        title = Text("What does it really mean to have your parole denied?", font_size=40, color=ACCENT_COLOR).scale(0.2)
         title.shift(UP*0.6)
 
         # Start with one day
@@ -179,12 +178,12 @@ class ParoleVisualization(Scene):
         day_label = Text("1 Day in Prison", font_size=28, color=TEXT_COLOR).scale(0.2)
         day_label.next_to(single_day, DOWN, buff=0.1)
 
-        self.play(Write(title))
+        self.play(FadeIn(title))
         self.wait(3)
 
         self.play(
             DrawBorderThenFill(single_day),
-            Write(day_label)
+            FadeIn(day_label)
         )
         self.wait(3)
 
@@ -192,7 +191,7 @@ class ParoleVisualization(Scene):
         wait_text = Text("The average wait for another parole hearing is 2 years", font_size=32, color=WARNING_COLOR).scale(0.2)
         wait_text.shift(DOWN*0.4)
         
-        self.play(Write(wait_text))
+        self.play(FadeIn(wait_text))
         self.wait(4)
         
         # Create grid representing 730 days (2 years)
@@ -208,14 +207,14 @@ class ParoleVisualization(Scene):
         days_count.next_to(days_grid, DOWN, buff=0.08)
 
         self.play(FadeOut(day_label, wait_text))
-        self.play(ReplacementTransform(single_day, days_grid), Write(days_count), run_time=2)
+        self.play(ReplacementTransform(single_day, days_grid), FadeIn(days_count), run_time=2)
         self.wait(5)
 
         # Turn 730 days into 1 square
         shrink_text = Text("Now lets pack all those days back into 1 square", font_size=24, color=WARNING_COLOR).scale(0.2)
         shrink_text.shift(DOWN*0.5)
-        single_day = Square(side_length=0.04, color=WARNING_COLOR, fill_opacity=0.6).scale(0.2)
-        self.play(ReplacementTransform(days_grid, single_day), Write(shrink_text), run_time=2)
+        single_day = Square(side_length=0.04, color=RED, fill_opacity=0.6).scale(0.2)
+        self.play(ReplacementTransform(days_grid, single_day), FadeIn(shrink_text), run_time=2)
         scale_note = Text("Each square is ~2 years", font_size=20, color=TEXT_COLOR).scale(0.2)
         scale_note.shift(DOWN*0.7)
 
@@ -229,9 +228,9 @@ class ParoleVisualization(Scene):
         self.wait(3)
         self.play(
             FadeOut(days_count, shrink_text),
-            Write(massive_text)
+            FadeIn(massive_text)
         )
-        self.wait(4)
+        self.wait(6)
         
         # Create visual representation of the massive number
         # Use dots to represent chunks of days (each dot = 1000 days)
@@ -239,13 +238,13 @@ class ParoleVisualization(Scene):
         for i in range(50):
             for j in range(100):
                 if len(massive_dots) < 5008:  # Roughly 4,007,700 / 1000
-                    dot = Dot(radius=0.008, color=WARNING_COLOR, fill_opacity=0.8)
+                    dot = Dot(radius=0.008, color=RED, fill_opacity=0.8)
                     dot.move_to([j*0.016 - 0.8, -i*0.016 + 0.3, 0])
                     massive_dots.add(dot)
 
 
         self.play(
-            Write(total_days),
+            FadeIn(total_days),
             ReplacementTransform(single_day, massive_dots),
             FadeIn(scale_note),
             run_time=3
@@ -292,28 +291,28 @@ class ParoleVisualization(Scene):
         v_before_label.next_to(v_before_bar, DOWN, buff=0.04)
         v_after_label.next_to(v_after_bar, DOWN, buff=0.04)
         
-        self.play(Write(title))
+        self.play(FadeIn(title))
         self.play(
-            Write(before_title),
-            Write(after_title)
+            FadeIn(before_title),
+            FadeIn(after_title)
         )
         self.play(
             DrawBorderThenFill(before_bar),
             DrawBorderThenFill(v_before_bar),
-            Write(before_label),
-            Write(v_before_label)
+            FadeIn(before_label),
+            FadeIn(v_before_label)
         )
         self.wait(1)
         self.play(
             DrawBorderThenFill(after_bar),
             DrawBorderThenFill(v_after_bar),
-            Write(after_label),
-            Write(v_after_label)
+            FadeIn(after_label),
+            FadeIn(v_after_label)
         )
         
         improvement = Text("70% REDUCTION in crime", font_size=32, color=SUCCESS_COLOR, weight=BOLD).scale(0.2)
         improvement.shift(DOWN*0.6)
-        self.play(Write(improvement))
+        self.play(FadeIn(improvement))
         
         self.wait(2.5)
         self.play(FadeOut(title, before_title, after_title, before_bar, after_bar,
@@ -334,16 +333,16 @@ class ParoleVisualization(Scene):
         metrics.arrange(DOWN, buff=0.5, aligned_edge=LEFT)
         metrics.center()
         
-        self.play(Write(title))
+        self.play(FadeIn(title))
         for metric in metrics:
-            self.play(Write(metric), run_time=0.8)
+            self.play(FadeIn(metric), run_time=0.8)
         
         self.wait(2)
         self.play(FadeOut(title, metrics))
 
     def call_to_action(self):
         main_text = Text(
-            "Data-driven justice\nis possible.",
+            "With a focus on risk assessment",
             font_size=48,
             color=ACCENT_COLOR,
             line_spacing=1.2,
@@ -351,16 +350,17 @@ class ParoleVisualization(Scene):
         ).scale(0.2)
         
         source = Text(
-            "Source: Journal of Quantitative Criminology (2024)\nLaqueur & Copus - NY State Parole Analysis",
-            font_size=20,
+            "These decision don't have to be arbitrary",
+            font_size=30,
             color=TEXT_COLOR,
             line_spacing=1.1
         ).scale(0.2)
-        source.shift(DOWN*0.6)
+        source.shift(DOWN*0.3)
         
-        self.play(Write(main_text), run_time=2)
-        self.play(Write(source), run_time=1.5)
+        self.play(FadeIn(main_text), run_time=2)
+        self.play(FadeIn(source), run_time=1.5)
         self.wait(3)
+        self.play(FadeOut(main_text, source))
 
     def create_section_title(self, text):
         """Create and animate a professional section title"""
@@ -432,6 +432,7 @@ class ParoleVisualization(Scene):
         citation_bg = RoundedRectangle(
             width=citation.width + 1,
             height=citation.height + 0.5,
+            corner_radius=0,
             fill_opacity=0.1,
             fill_color=BLUE_D,
             stroke_color=BLUE_C,
@@ -464,4 +465,55 @@ class ParoleVisualization(Scene):
 
         citation_group = VGroup(citation_bg, citation).scale(0.2)
         return citation_group
+
+    def show_conclusion(self):
+        """Display the main conclusion with enhanced styling"""
+        conclusion_title = Text(
+            "Conclusion",
+            font="Arial",
+            weight=BOLD,
+            font_size=48,
+            color=BLUE_C,
+            gradient=(BLUE_A, BLUE_D)
+        )
+
+        conclusion_points = VGroup(
+            Text("• Parole denials should not be punitive",
+                 font="Arial", font_size=28, color=GREEN_C, weight=MEDIUM),
+            Text("• Algorithms can effectively calculate risk of reoffending",
+                 font="Arial", font_size=28, color=GREEN_C, weight=MEDIUM),
+            Text("• We can practice forgiveness without increasing crime",
+                 font="Arial", font_size=28, color=GREEN_C, weight=MEDIUM)
+        ).arrange(DOWN, buff=0.6, aligned_edge=LEFT)
+
+        # Background for conclusion
+        conclusion_bg = RoundedRectangle(
+            width=conclusion_points.width + 2,
+            height=conclusion_points.height + 1,
+            corner_radius=0.0,
+            fill_opacity=0.1,
+            fill_color=GREEN_D,
+            stroke_color=GREEN_C,
+            stroke_width=2
+        )
+
+        conclusion_group = VGroup(conclusion_title, conclusion_points)
+        conclusion_group.arrange(DOWN, buff=1.2)
+        conclusion_group.move_to(ORIGIN)
+
+        conclusion_bg.move_to(conclusion_points.get_center())
+        full_conclusion = VGroup(conclusion_bg, conclusion_group).scale(0.2)
+
+        self.play(FadeIn(conclusion_title, shift=UP * 0.5), run_time=2)
+        self.wait(1)
+        self.play(DrawBorderThenFill(conclusion_bg), run_time=1.5)
+
+        for point in conclusion_points:
+            self.play(FadeIn(point, shift=RIGHT * 0.5), run_time=1.5)
+            self.wait(1)
+
+        self.wait(4)
+
+
 # To render: manim -pqh parole_viz.py ParoleVisualization
+
