@@ -9,7 +9,7 @@ class PrisonCellVisualization(ThreeDScene):
         
         self.play(FadeIn(title), run_time=2)
         self.play(FadeIn(subtitle), run_time=1.5)
-        self.wait(2)
+        self.wait(4)
         self.play(FadeOut(title), FadeOut(subtitle), run_time=1.5)
         
         # Explanatory text
@@ -69,7 +69,7 @@ class PrisonCellVisualization(ThreeDScene):
         # Create groups
         cell_group = VGroup(cell, cell_label)
         apt_group = VGroup(apartment, apartment_label)
-        home_group = VGroup(home, home_label)
+        home_group = VGroup(home, home_label).shift(DOWN*0.1)
         
         # Position them
         group = VGroup(cell_group, apt_group, home_group).scale(0.2)
@@ -82,7 +82,7 @@ class PrisonCellVisualization(ThreeDScene):
         context_text = Text("Most people live in spaces like these:", 
                            font_size=32, color=LIGHT_GRAY).scale(0.2)
         context_text.shift(UP*1.2)
-        self.play(FadeIn(context_text))
+        self.play(Write(context_text))
         
         # Show progression with enhanced animations
         self.play(
@@ -103,7 +103,7 @@ class PrisonCellVisualization(ThreeDScene):
         
         # Dramatic pause before showing cell
         contrast_text = Text("But some live in spaces like this:", 
-                            font_size=32, color=YELLOW).scale(0.2)
+                            font_size=32, color=RED).scale(0.2)
         contrast_text.shift(UP).shift(RIGHT*1.3)
         self.play(ReplacementTransform(context_text, contrast_text))
         self.wait(1)
@@ -127,14 +127,14 @@ class PrisonCellVisualization(ThreeDScene):
         self.wait(1)
         
         # Focus text
-        focus_text = Text("Keep that size comparison in your mind as you watch the rest", 
+        focus_text = Text("Keep that size comparison in mind as you watch the rest", 
                          font_size=32, color=WHITE).scale(0.2)
         focus_text.shift(UP)
         self.play(FadeIn(focus_text))
         
         # Keep only the prison cell centered
         self.play(cell_group.animate.move_to(ORIGIN), run_time=2)
-        self.wait(1)
+        self.wait(3)
         self.play(FadeOut(focus_text))
         
         '''
@@ -145,7 +145,7 @@ class PrisonCellVisualization(ThreeDScene):
         '''
         
         # Prison time: 23 hours in, 1 hour out simulated with flashes
-        hours_in_cell = Text("23 hours a day in cell", font_size=36, color=RED).shift(UP).scale(0.2)
+        hours_in_cell = Text("23 hours a day in a cell", font_size=36, color=RED).shift(UP).scale(0.2)
         hours_out_cell = Text("1 hour outside", font_size=24, color=GREEN).shift(UP*0.9).scale(0.2)
         
         # Clock visualization
@@ -211,10 +211,10 @@ class PrisonCellVisualization(ThreeDScene):
         self.wait(2)
         
         # Solitary confinement section
-        solitary_title = Text("Solitary Confinement:", font_size=40, color=RED, weight=BOLD).scale(0.2)
+        solitary_title = Text("Lockdown:", font_size=40, color=RED, weight=BOLD).scale(0.2)
         solitary_title.shift(UP*0.6)
         
-        solitary_text = Text("24 hours a day in cell", font_size=36, color=RED_E).shift(UP).scale(0.2)
+        solitary_text = Text("Up to 24 hours a day in cell", font_size=36, color=RED_E).shift(UP).scale(0.2)
         
         isolation_text = Text("Complete isolation • Almost no human contact", 
                              font_size=24, color=GRAY).scale(0.2)
@@ -257,7 +257,7 @@ class PrisonCellVisualization(ThreeDScene):
         self.wait(7)
 
         # Final impact message
-        final_message = Text("This is the reality for hundreds of thousands", 
+        final_message = Text("This can be the reality for hundreds of thousands in segregation or during lockdowns", 
                             font_size=32, color=WHITE).scale(0.2)
         final_message.shift(DOWN*0.5)
         self.play(FadeIn(final_message), run_time=2)
