@@ -62,9 +62,9 @@ class PrisonCellVisualization(ThreeDScene):
         )
         
         # Position labels below cubes
-        home_label.next_to(home, DOWN, buff=1)
+        home_label.next_to(home, DOWN, buff=1.1)
         apartment_label.next_to(apartment, DOWN, buff=0.8)
-        cell_label.next_to(cell, DOWN, buff=0.6)
+        cell_label.next_to(cell, DOWN, buff=0.5)
         
         # Create groups
         cell_group = VGroup(cell, cell_label)
@@ -127,7 +127,7 @@ class PrisonCellVisualization(ThreeDScene):
         self.wait(1)
         
         # Focus text
-        focus_text = Text("Now let's focus on the prison experience", 
+        focus_text = Text("Keep that size comparison in your mind as you watch the rest", 
                          font_size=32, color=WHITE).scale(0.2)
         focus_text.shift(UP)
         self.play(FadeIn(focus_text))
@@ -146,7 +146,7 @@ class PrisonCellVisualization(ThreeDScene):
         
         # Prison time: 23 hours in, 1 hour out simulated with flashes
         hours_in_cell = Text("23 hours a day in cell", font_size=36, color=RED).shift(UP).scale(0.2)
-        hours_out_cell = Text("1 hour outside", font_size=24, color=GREEN).shift(UP*0.8).scale(0.2)
+        hours_out_cell = Text("1 hour outside", font_size=24, color=GREEN).shift(UP*0.9).scale(0.2)
         
         # Clock visualization
         clock_circle = Circle(radius=0.8, color=WHITE, stroke_width=3).scale(0.2)
@@ -212,7 +212,7 @@ class PrisonCellVisualization(ThreeDScene):
         
         # Solitary confinement section
         solitary_title = Text("Solitary Confinement:", font_size=40, color=RED, weight=BOLD).scale(0.2)
-        solitary_title.shift(UP*0.4)
+        solitary_title.shift(UP*0.6)
         
         solitary_text = Text("24 hours a day in cell", font_size=36, color=RED_E).shift(UP).scale(0.2)
         
@@ -234,11 +234,12 @@ class PrisonCellVisualization(ThreeDScene):
             for i in range(8)
         ]).scale(0.2)
         bars.arrange(RIGHT, buff=0.05)
-        bars.move_to(ORIGIN).shift(UP*0.25)
+        bars.move_to(ORIGIN).shift(UP*0.2)
         
         self.play(FadeIn(bars), run_time=1.5)
         
         
+        '''
         # Cell remains on screen for 24 seconds straight with subtle pulsing
         for i in range(24):
             if i % 4 == 0:  # Subtle pulse every 4 seconds
@@ -249,8 +250,11 @@ class PrisonCellVisualization(ThreeDScene):
                 )
             else:
                 self.wait(1)
+        '''
         
-        self.citation("The cell doesn't disappear anymore now", "")
+        self.wait(10)
+        self.citation("The cell never disappears now", "")
+        self.wait(7)
 
         # Final impact message
         final_message = Text("This is the reality for hundreds of thousands", 
@@ -283,9 +287,9 @@ class PrisonCellVisualization(ThreeDScene):
         # Study citation with better formatting
         citation = VGroup(
             Text(text1,
-                 font="Arial", font_size=24, color=BLUE_A, weight=BOLD),
+                 font="Arial", font_size=34, color=BLUE_A, weight=BOLD),
             Text(text2,
-                 font="Arial", font_size=20, color=GRAY_A)
+                 font="Arial", font_size=30, color=GRAY_A)
         ).arrange(DOWN, buff=0.3).move_to(ORIGIN)
 
         # Citation background
@@ -303,5 +307,5 @@ class PrisonCellVisualization(ThreeDScene):
 
         self.play(DrawBorderThenFill(citation_bg), run_time=1)
         self.play(FadeIn(citation), run_time=2)
-        self.wait(3)
+        self.wait(5)
         self.play(FadeOut(VGroup(citation_group)), run_time=1.5)
