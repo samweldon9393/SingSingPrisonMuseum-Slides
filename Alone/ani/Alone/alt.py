@@ -104,7 +104,7 @@ class PrisonCellVisualization(ThreeDScene):
         # Dramatic pause before showing cell
         contrast_text = Text("But some live in spaces like this:", 
                             font_size=32, color=YELLOW).scale(0.2)
-        contrast_text.shift(UP).shift(LEFT)
+        contrast_text.shift(UP).shift(RIGHT*1.3)
         self.play(ReplacementTransform(context_text, contrast_text))
         self.wait(1)
         
@@ -146,7 +146,7 @@ class PrisonCellVisualization(ThreeDScene):
         
         # Prison time: 23 hours in, 1 hour out simulated with flashes
         hours_in_cell = Text("23 hours a day in cell", font_size=36, color=RED).shift(UP).scale(0.2)
-        hours_out_cell = Text("1 hour outside", font_size=24, color=GREEN).shift(DOWN*0.8).scale(0.2)
+        hours_out_cell = Text("1 hour outside", font_size=24, color=GREEN).shift(UP*0.8).scale(0.2)
         
         # Clock visualization
         clock_circle = Circle(radius=0.8, color=WHITE, stroke_width=3).scale(0.2)
@@ -169,7 +169,7 @@ class PrisonCellVisualization(ThreeDScene):
         
         # Time visualization with enhanced effects
         time_explanation = Text("Let's compress 24 hours into 24 seconds to feel the proportion\nThe cell disappears for as long as you're outside of it", 
-                               font_size=24, color=LIGHT_GRAY).scale(0.2)
+                               font_size=24, color=LIGHT_GRAY, slant=ITALIC).scale(0.2)
         time_explanation.shift(DOWN*0.5)
         self.play(FadeIn(time_explanation))
         
@@ -198,11 +198,11 @@ class PrisonCellVisualization(ThreeDScene):
             )
         
         self.wait(1)
-        self.play(FadeOut(clock), FadeOut(hours_out_cell))
+        self.play(FadeOut(clock), FadeOut(hours_out_cell), FadeOut(time_explanation))
         
         # Solitary confinement section with enhanced drama
         transition_text = Text("But it can get worse...", font_size=32, color=ORANGE).scale(0.2)
-        transition_text.shift(UP*0.7)
+        transition_text.shift(UP*0.6)
         self.play(
                 #ReplacementTransform(daily_routine_text, transition_text),
             Write(transition_text),
@@ -230,19 +230,14 @@ class PrisonCellVisualization(ThreeDScene):
         
         # Visual representation of complete confinement
         bars = VGroup(*[
-            Rectangle(width=0.1, height=3, fill_color=GRAY, fill_opacity=0.8, stroke_width=0)
+            Rectangle(width=0.1, height=2, fill_color=GRAY, fill_opacity=0.8, stroke_width=0)
             for i in range(8)
         ]).scale(0.2)
-        bars.arrange(RIGHT, buff=0.15)
-        #bars.move_to(cell.get_center() + 1.2*RIGHT)
-        bars.move_to(ORIGIN)
+        bars.arrange(RIGHT, buff=0.05)
+        bars.move_to(ORIGIN).shift(UP*0.25)
         
         self.play(FadeIn(bars), run_time=1.5)
         
-        # Time indicator for solitary
-        time_counter = Text("24 hours = 24 seconds", font_size=20, color=LIGHT_GRAY).scale(0.2)
-        time_counter.shift(DOWN*0.3)
-        self.play(FadeIn(time_counter))
         
         # Cell remains on screen for 24 seconds straight with subtle pulsing
         for i in range(24):
@@ -255,8 +250,9 @@ class PrisonCellVisualization(ThreeDScene):
             else:
                 self.wait(1)
         
+        self.citation("The cell doesn't disappear anymore now", "")
+
         # Final impact message
-        self.play(FadeOut(time_counter))
         final_message = Text("This is the reality for hundreds of thousands", 
                             font_size=32, color=WHITE).scale(0.2)
         final_message.shift(DOWN*0.5)
@@ -274,9 +270,38 @@ class PrisonCellVisualization(ThreeDScene):
             run_time=3
         )
         
+        '''
         # Credits
         credits = Text("Data sources: Bureau of Justice Statistics, Prison Policy Initiative", 
-                      font_size=18, color=GRAY).scale(0.2)
+                      font_size=28, color=GRAY).scale(0.2)
         self.play(FadeIn(credits))
         self.wait(2)
         self.play(FadeOut(credits))
+        '''
+
+    def citation(self, text1, text2):
+        # Study citation with better formatting
+        citation = VGroup(
+            Text(text1,
+                 font="Arial", font_size=24, color=BLUE_A, weight=BOLD),
+            Text(text2,
+                 font="Arial", font_size=20, color=GRAY_A)
+        ).arrange(DOWN, buff=0.3).move_to(ORIGIN)
+
+        # Citation background
+        citation_bg = RoundedRectangle(
+            width=citation.width + 1,
+            height=citation.height + 0.5,
+            corner_radius=0,
+            fill_opacity=0.1,
+            fill_color=BLUE_D,
+            stroke_color=BLUE_C,
+            stroke_width=1
+        )
+
+        citation_group = VGroup(citation_bg, citation).scale(0.2)
+
+        self.play(DrawBorderThenFill(citation_bg), run_time=1)
+        self.play(FadeIn(citation), run_time=2)
+        self.wait(3)
+        self.play(FadeOut(VGroup(citation_group)), run_time=1.5)
