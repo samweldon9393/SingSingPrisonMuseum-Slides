@@ -69,7 +69,7 @@ class PrisonCellVisualization(ThreeDScene):
         # Create groups
         cell_group = VGroup(cell, cell_label)
         apt_group = VGroup(apartment, apartment_label)
-        home_group = VGroup(home, home_label).shift(DOWN*0.1)
+        home_group = VGroup(home, home_label).shift(DOWN*0.2)
         
         # Position them
         group = VGroup(cell_group, apt_group, home_group).scale(0.2)
@@ -81,7 +81,7 @@ class PrisonCellVisualization(ThreeDScene):
         # Context text
         context_text = Text("Most people live in spaces like these:", 
                            font_size=32, color=LIGHT_GRAY).scale(0.2)
-        context_text.shift(UP*1.2)
+        context_text.shift(UP*1.22)
         self.play(Write(context_text))
         
         # Show progression with enhanced animations
@@ -104,7 +104,7 @@ class PrisonCellVisualization(ThreeDScene):
         # Dramatic pause before showing cell
         contrast_text = Text("But some live in spaces like this:", 
                             font_size=32, color=RED).scale(0.2)
-        contrast_text.shift(UP).shift(RIGHT*1.3)
+        contrast_text.shift(UP).shift(RIGHT*1.45)
         self.play(ReplacementTransform(context_text, contrast_text))
         self.wait(1)
         
@@ -114,7 +114,7 @@ class PrisonCellVisualization(ThreeDScene):
             DrawBorderThenFill(cell_label[0]),
             run_time=2
         )
-        self.wait(3)
+        self.wait(5)
         
         
         # Fade out larger contexts, keep cell
@@ -287,9 +287,9 @@ class PrisonCellVisualization(ThreeDScene):
         # Study citation with better formatting
         citation = VGroup(
             Text(text1,
-                 font="Arial", font_size=34, color=BLUE_A, weight=BOLD),
+                 font_size=34, color=GRAY, weight=BOLD),
             Text(text2,
-                 font="Arial", font_size=30, color=GRAY_A)
+                 font_size=30, color=GRAY_A)
         ).arrange(DOWN, buff=0.3).move_to(ORIGIN)
 
         # Citation background
@@ -298,8 +298,8 @@ class PrisonCellVisualization(ThreeDScene):
             height=citation.height + 0.5,
             corner_radius=0,
             fill_opacity=0.1,
-            fill_color=BLUE_D,
-            stroke_color=BLUE_C,
+            fill_color=RED_E,
+            stroke_color=RED,
             stroke_width=1
         )
 
