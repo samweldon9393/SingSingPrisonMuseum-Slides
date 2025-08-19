@@ -37,11 +37,11 @@ class ParoleVisualization(Scene):
         self.prison_days_sequence()
         
         # The solution
-        self.conclusion()
+        self.show_conclusion()
 
     def title_sequence(self):
         title = Text("Forgiveness & Who Gets It", font_size=60, color=ACCENT_COLOR, weight=BOLD).scale(0.2)
-        subtitle = Text("A Closer Look At Parole", font_size=36, color=TEXT_COLOR).scale(0.2)
+        subtitle = Text("A Closer Look At Prison and Parole", font_size=36, color=TEXT_COLOR).scale(0.2)
         subtitle.next_to(title, DOWN, buff=0.5)
         
         self.play(FadeIn(title), run_time=1.5)
@@ -70,7 +70,7 @@ class ParoleVisualization(Scene):
         self.play(FadeOut(hook_text))
 
     def racial_disparity_sequence(self):
-        title = Text("Racial Disparities", font_size=44, color=ACCENT_COLOR).scale(0.2)
+        title = Text("Chance of being granted parole", font_size=44, color=ACCENT_COLOR).scale(0.2)
         title.shift(UP*0.8)
         
         # Create bar chart for racial disparities
@@ -102,7 +102,7 @@ class ParoleVisualization(Scene):
         
         
         self.play(FadeIn(title))
-        subtitle = self.create_subtitle("Chance of being granted parole")
+        subtitle = self.create_subtitle("Racial Disparities")
         self.play(
             DrawBorderThenFill(white_bar),
             DrawBorderThenFill(black_bar),
@@ -122,7 +122,7 @@ class ParoleVisualization(Scene):
         title.shift(UP*0.6)
         
         # Create dots representing hearings
-        total_text = Text("Out of 19,713 Parole Hearings", font_size=36, color=TEXT_COLOR).scale(0.2)
+        total_text = Text("Out of 19,713 Parole Hearings in NYS", font_size=36, color=TEXT_COLOR).scale(0.2)
         total_text.next_to(title, DOWN*1.5, buff=1)
         
         # Create grid of dots
